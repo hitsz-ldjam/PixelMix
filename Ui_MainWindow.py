@@ -1,0 +1,92 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'MainWindow.ui'
+#
+# Created by: PyQt5 UI code generator 5.9.2
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.setEnabled(True)
+        MainWindow.resize(800, 600)
+        MainWindow.setMinimumSize(QtCore.QSize(800, 600))
+        MainWindow.setMouseTracking(False)
+        MainWindow.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
+        MainWindow.setToolButtonStyle(QtCore.Qt.ToolButtonIconOnly)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 26))
+        self.menubar.setObjectName("menubar")
+        self.menuFile = QtWidgets.QMenu(self.menubar)
+        self.menuFile.setObjectName("menuFile")
+        self.menuEdit = QtWidgets.QMenu(self.menubar)
+        self.menuEdit.setObjectName("menuEdit")
+        self.menuHelp = QtWidgets.QMenu(self.menubar)
+        self.menuHelp.setObjectName("menuHelp")
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
+        self.mainToolBar = QtWidgets.QToolBar(MainWindow)
+        self.mainToolBar.setMinimumSize(QtCore.QSize(30, 30))
+        self.mainToolBar.setObjectName("mainToolBar")
+        MainWindow.addToolBar(QtCore.Qt.TopToolBarArea, self.mainToolBar)
+        self.sideToolBar = QtWidgets.QToolBar(MainWindow)
+        self.sideToolBar.setMinimumSize(QtCore.QSize(30, 30))
+        self.sideToolBar.setObjectName("sideToolBar")
+        MainWindow.addToolBar(QtCore.Qt.LeftToolBarArea, self.sideToolBar)
+        self.menuFileCreate = QtWidgets.QAction(MainWindow)
+        self.menuFileCreate.setObjectName("menuFileCreate")
+        self.menuFileOpen = QtWidgets.QAction(MainWindow)
+        self.menuFileOpen.setObjectName("menuFileOpen")
+        self.menuFileSave = QtWidgets.QAction(MainWindow)
+        self.menuFileSave.setObjectName("menuFileSave")
+        self.menuFileSaveAs = QtWidgets.QAction(MainWindow)
+        self.menuFileSaveAs.setObjectName("menuFileSaveAs")
+        self.menuFileQuit = QtWidgets.QAction(MainWindow)
+        self.menuFileQuit.setObjectName("menuFileQuit")
+        self.menuHelpAbout = QtWidgets.QAction(MainWindow)
+        self.menuHelpAbout.setCheckable(False)
+        self.menuHelpAbout.setObjectName("menuHelpAbout")
+        self.menuFile.addAction(self.menuFileCreate)
+        self.menuFile.addAction(self.menuFileOpen)
+        self.menuFile.addSeparator()
+        self.menuFile.addAction(self.menuFileSave)
+        self.menuFile.addAction(self.menuFileSaveAs)
+        self.menuFile.addSeparator()
+        self.menuFile.addAction(self.menuFileQuit)
+        self.menuHelp.addAction(self.menuHelpAbout)
+        self.menubar.addAction(self.menuFile.menuAction())
+        self.menubar.addAction(self.menuEdit.menuAction())
+        self.menubar.addAction(self.menuHelp.menuAction())
+
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "Pixel Mix"))
+        self.menuFile.setTitle(_translate("MainWindow", "文件"))
+        self.menuEdit.setTitle(_translate("MainWindow", "编辑"))
+        self.menuHelp.setTitle(_translate("MainWindow", "帮助"))
+        self.mainToolBar.setWindowTitle(_translate("MainWindow", "toolBar"))
+        self.sideToolBar.setWindowTitle(_translate("MainWindow", "toolBar"))
+        self.menuFileCreate.setText(_translate("MainWindow", "新建"))
+        self.menuFileCreate.setToolTip(_translate("MainWindow", "创建新的文件"))
+        self.menuFileCreate.setShortcut(_translate("MainWindow", "Ctrl+N"))
+        self.menuFileOpen.setText(_translate("MainWindow", "打开"))
+        self.menuFileOpen.setToolTip(_translate("MainWindow", "打开一个文件"))
+        self.menuFileOpen.setShortcut(_translate("MainWindow", "Ctrl+O"))
+        self.menuFileSave.setText(_translate("MainWindow", "保存"))
+        self.menuFileSave.setToolTip(_translate("MainWindow", "保存当前编辑的文件"))
+        self.menuFileSave.setShortcut(_translate("MainWindow", "Ctrl+S"))
+        self.menuFileSaveAs.setText(_translate("MainWindow", "另存为"))
+        self.menuFileQuit.setText(_translate("MainWindow", "退出"))
+        self.menuHelpAbout.setText(_translate("MainWindow", "关于"))
+
