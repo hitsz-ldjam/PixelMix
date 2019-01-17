@@ -28,10 +28,17 @@
   <property name="windowTitle">
    <string>Pixel Mix</string>
   </property>
+  <property name="locale">
+   <locale language="English" country="UnitedStates"/>
+  </property>
   <property name="toolButtonStyle">
    <enum>Qt::ToolButtonIconOnly</enum>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QWidget" name="centralwidget">
+   <property name="locale">
+    <locale language="English" country="UnitedStates"/>
+   </property>
+  </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
@@ -43,7 +50,7 @@
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>文件</string>
+     <string>File</string>
     </property>
     <addaction name="menuFileCreate"/>
     <addaction name="menuFileOpen"/>
@@ -55,12 +62,12 @@
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
-     <string>编辑</string>
+     <string>Edit</string>
     </property>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
-     <string>帮助</string>
+     <string>Help</string>
     </property>
     <addaction name="menuHelpAbout"/>
    </widget>
@@ -96,19 +103,22 @@
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
+   <property name="locale">
+    <locale language="English" country="UnitedStates"/>
+   </property>
    <attribute name="toolBarArea">
     <enum>LeftToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>false</bool>
+    <bool>true</bool>
    </attribute>
   </widget>
   <action name="menuFileCreate">
    <property name="text">
-    <string>新建</string>
+    <string>New</string>
    </property>
    <property name="toolTip">
-    <string>创建新的文件</string>
+    <string>New</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
@@ -116,10 +126,10 @@
   </action>
   <action name="menuFileOpen">
    <property name="text">
-    <string>打开</string>
+    <string>Open</string>
    </property>
    <property name="toolTip">
-    <string>打开一个文件</string>
+    <string>Open</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
@@ -127,10 +137,10 @@
   </action>
   <action name="menuFileSave">
    <property name="text">
-    <string>保存</string>
+    <string>Save</string>
    </property>
    <property name="toolTip">
-    <string>保存当前编辑的文件</string>
+    <string>Save</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
@@ -138,12 +148,18 @@
   </action>
   <action name="menuFileSaveAs">
    <property name="text">
-    <string>另存为</string>
+    <string>Save as ...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
    </property>
   </action>
   <action name="menuFileQuit">
    <property name="text">
-    <string>退出</string>
+    <string>Quit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
    </property>
   </action>
   <action name="menuHelpAbout">
@@ -151,7 +167,7 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>关于</string>
+    <string>About</string>
    </property>
   </action>
  </widget>

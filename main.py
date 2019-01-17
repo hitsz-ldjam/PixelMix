@@ -1,8 +1,9 @@
 import sys
-import PyQt5.QtWidgets as QtW
+import PySide2.QtWidgets as QtW
 from MainWindow import MainWindow
 
-app = QtW.QApplication(sys.argv)
-mainWindow = MainWindow()
-mainWindow.show()
-app.exec()
+
+if __name__ == "__main__":
+    app = QtW.QApplication(sys.argv)
+    mainWindow = MainWindow()
+    sys.exit(app.exec_())

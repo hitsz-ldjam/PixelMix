@@ -1,12 +1,4 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'MainWindow.ui'
-#
-# Created by: PyQt5 UI code generator 5.9.2
-#
-# WARNING! All changes made in this file will be lost!
-
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PySide2 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -16,8 +8,10 @@ class Ui_MainWindow(object):
         MainWindow.setMinimumSize(QtCore.QSize(800, 600))
         MainWindow.setMouseTracking(False)
         MainWindow.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
+        MainWindow.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedStates))
         MainWindow.setToolButtonStyle(QtCore.Qt.ToolButtonIconOnly)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedStates))
         self.centralwidget.setObjectName("centralwidget")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -39,8 +33,10 @@ class Ui_MainWindow(object):
         MainWindow.addToolBar(QtCore.Qt.TopToolBarArea, self.mainToolBar)
         self.sideToolBar = QtWidgets.QToolBar(MainWindow)
         self.sideToolBar.setMinimumSize(QtCore.QSize(30, 30))
+        self.sideToolBar.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedStates))
         self.sideToolBar.setObjectName("sideToolBar")
         MainWindow.addToolBar(QtCore.Qt.LeftToolBarArea, self.sideToolBar)
+        MainWindow.insertToolBarBreak(self.sideToolBar)
         self.menuFileCreate = QtWidgets.QAction(MainWindow)
         self.menuFileCreate.setObjectName("menuFileCreate")
         self.menuFileOpen = QtWidgets.QAction(MainWindow)
@@ -72,21 +68,22 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Pixel Mix"))
-        self.menuFile.setTitle(_translate("MainWindow", "文件"))
-        self.menuEdit.setTitle(_translate("MainWindow", "编辑"))
-        self.menuHelp.setTitle(_translate("MainWindow", "帮助"))
+        self.menuFile.setTitle(_translate("MainWindow", "File"))
+        self.menuEdit.setTitle(_translate("MainWindow", "Edit"))
+        self.menuHelp.setTitle(_translate("MainWindow", "Help"))
         self.mainToolBar.setWindowTitle(_translate("MainWindow", "toolBar"))
         self.sideToolBar.setWindowTitle(_translate("MainWindow", "toolBar"))
-        self.menuFileCreate.setText(_translate("MainWindow", "新建"))
-        self.menuFileCreate.setToolTip(_translate("MainWindow", "创建新的文件"))
+        self.menuFileCreate.setText(_translate("MainWindow", "New"))
+        self.menuFileCreate.setToolTip(_translate("MainWindow", "New"))
         self.menuFileCreate.setShortcut(_translate("MainWindow", "Ctrl+N"))
-        self.menuFileOpen.setText(_translate("MainWindow", "打开"))
-        self.menuFileOpen.setToolTip(_translate("MainWindow", "打开一个文件"))
+        self.menuFileOpen.setText(_translate("MainWindow", "Open"))
+        self.menuFileOpen.setToolTip(_translate("MainWindow", "Open"))
         self.menuFileOpen.setShortcut(_translate("MainWindow", "Ctrl+O"))
-        self.menuFileSave.setText(_translate("MainWindow", "保存"))
-        self.menuFileSave.setToolTip(_translate("MainWindow", "保存当前编辑的文件"))
+        self.menuFileSave.setText(_translate("MainWindow", "Save"))
+        self.menuFileSave.setToolTip(_translate("MainWindow", "Save"))
         self.menuFileSave.setShortcut(_translate("MainWindow", "Ctrl+S"))
-        self.menuFileSaveAs.setText(_translate("MainWindow", "另存为"))
-        self.menuFileQuit.setText(_translate("MainWindow", "退出"))
-        self.menuHelpAbout.setText(_translate("MainWindow", "关于"))
-
+        self.menuFileSaveAs.setText(_translate("MainWindow", "Save as ..."))
+        self.menuFileSaveAs.setShortcut(_translate("MainWindow", "Ctrl+Shift+S"))
+        self.menuFileQuit.setText(_translate("MainWindow", "Quit"))
+        self.menuFileQuit.setShortcut(_translate("MainWindow", "Ctrl+Q"))
+        self.menuHelpAbout.setText(_translate("MainWindow", "About"))
