@@ -1,54 +1,95 @@
-import PySide2.QtCore as QtC
-import PySide2.QtWidgets as QtW
+from Painter import *
+
+# main window UI
 from Ui_MainWindow import Ui_MainWindow
 
+g_defaultWindowBackColor = QColor(150, 150, 150)
 
-class MainWindow(QtW.QMainWindow, Ui_MainWindow):
+
+class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        # uic.loadUi("MainWindow.ui", self)
 
+        # hide default central widget
+        self.takeCentralWidget().hide()
+        self.setDockNestingEnabled(True)
+
+        # move the main window to the center
         qr = self.frameGeometry()
-        cp = QtW.QDesktopWidget().availableGeometry().center()
+        cp = QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
         self.move(qr.topLeft())
 
-        # dock window
-        # self.__dockWindow={}
-        # self.__dockWindow["Untitled"]
+        # create a canvas list
+        self.__canvases = []
+        # create a tool dock list
+        self.__toolDocks = []
 
+        # add a default canvas
+        self.addCanvas(300, 300, QImage.Format_RGB888, "Untitled")
+
+        # test (add some tool docks)
+        for i in range(4):
+            self.addToolDock(Qt.RightDockWidgetArea, "Tool_" + str(i + 1))
+
+        self.setDockLayout()
         self.show()
 
-    @QtC.Slot()
-    def on_menuFileOpen_triggered(self):
-        path = QtW.QFileDialog.getOpenFileName(caption="Open File",
-                                               filter="JPEG (*.jpg);;PNG (*.png);;All File Formats (*.*)",
-                                               selectedFilter="PNG (*.png)")
+    def addCanvas(self, width, height, imgFormat, title, color=QColor(255, 255, 255)):
+        """
+        add a canvas to main window
+        each canvas includes an image and a dock widget
+        """
+        canvas = Canvas(width, height, imgFormat, self, title)
+        canvas.image.fill(color)
 
-    @QtC.Slot()
+        # set background color
+        pal = QPalette(canvas.widget.palette())
+        pal.setColor(QPalette.Background, g_defaultWindowBackColor)
+        canvas.widget.setAutoFillBackground(True)
+        canvas.widget.setPalette(pal)
+
+        self.__canvases.append(canvas)
+        return canvas
+
+    def addToolDock(self, area, title):
+        dock = QDockWidget(title)
+        self.addDockWidget(area, dock)
+        self.__toolDocks.append(dock)
+        return dock
+
+    def setDockLayout(self):
+        self.setCentralWidget(self.__canvases[0].widget)
+
+    @Slot()
+    def on_menuFileOpen_triggered(self):
+        path = QFileDialog.getOpenFileName(self, "Open File", "C:/", "All File Formats (*.*)", "")
+        print(path)
+
+    @Slot()
     def on_menuFileCreate_triggered(self):
         # todo
         print("Create")
 
-    @QtC.Slot()
+    @Slot()
     def on_menuFileSave_triggered(self):
         # todo
         print("Save")
 
-    @QtC.Slot()
+    @Slot()
     def on_menuFileSaveAs_triggered(self):
         # todo
         print("SaveAs")
 
-    @QtC.Slot()
+    @Slot()
     def on_menuFileQuit_triggered(self):
         self.close()
 
-    @QtC.Slot()
+    @Slot()
     def on_menuHelpAbout_triggered(self):
-        dialog = QtW.QDialog(self)
+        dialog = QDialog(self)
         dialog.setWindowTitle("About")
-        dialog.setWindowModality(QtC.Qt.ApplicationModal)
+        dialog.setWindowModality(Qt.ApplicationModal)
         dialog.show()
         dialog.exec_()

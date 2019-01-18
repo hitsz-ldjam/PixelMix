@@ -1,13 +1,25 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'MainWindow.ui',
+# licensing of 'MainWindow.ui' applies.
+#
+# Created: Fri Jan 18 23:55:26 2019
+#      by: pyside2-uic  running on PySide2 5.12.0
+#
+# WARNING! All changes made in this file will be lost!
+
 from PySide2 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setEnabled(True)
-        MainWindow.resize(800, 600)
+        MainWindow.resize(1197, 800)
         MainWindow.setMinimumSize(QtCore.QSize(800, 600))
         MainWindow.setMouseTracking(False)
         MainWindow.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
+        MainWindow.setStyleSheet("background-color: rgb(150, 150, 150);\n"
+"")
         MainWindow.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedStates))
         MainWindow.setToolButtonStyle(QtCore.Qt.ToolButtonIconOnly)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -15,7 +27,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1197, 26))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
@@ -36,7 +48,6 @@ class Ui_MainWindow(object):
         self.sideToolBar.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedStates))
         self.sideToolBar.setObjectName("sideToolBar")
         MainWindow.addToolBar(QtCore.Qt.LeftToolBarArea, self.sideToolBar)
-        MainWindow.insertToolBarBreak(self.sideToolBar)
         self.menuFileCreate = QtWidgets.QAction(MainWindow)
         self.menuFileCreate.setObjectName("menuFileCreate")
         self.menuFileOpen = QtWidgets.QAction(MainWindow)
@@ -66,24 +77,24 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Pixel Mix"))
-        self.menuFile.setTitle(_translate("MainWindow", "File"))
-        self.menuEdit.setTitle(_translate("MainWindow", "Edit"))
-        self.menuHelp.setTitle(_translate("MainWindow", "Help"))
-        self.mainToolBar.setWindowTitle(_translate("MainWindow", "toolBar"))
-        self.sideToolBar.setWindowTitle(_translate("MainWindow", "toolBar"))
-        self.menuFileCreate.setText(_translate("MainWindow", "New"))
-        self.menuFileCreate.setToolTip(_translate("MainWindow", "New"))
-        self.menuFileCreate.setShortcut(_translate("MainWindow", "Ctrl+N"))
-        self.menuFileOpen.setText(_translate("MainWindow", "Open"))
-        self.menuFileOpen.setToolTip(_translate("MainWindow", "Open"))
-        self.menuFileOpen.setShortcut(_translate("MainWindow", "Ctrl+O"))
-        self.menuFileSave.setText(_translate("MainWindow", "Save"))
-        self.menuFileSave.setToolTip(_translate("MainWindow", "Save"))
-        self.menuFileSave.setShortcut(_translate("MainWindow", "Ctrl+S"))
-        self.menuFileSaveAs.setText(_translate("MainWindow", "Save as ..."))
-        self.menuFileSaveAs.setShortcut(_translate("MainWindow", "Ctrl+Shift+S"))
-        self.menuFileQuit.setText(_translate("MainWindow", "Quit"))
-        self.menuFileQuit.setShortcut(_translate("MainWindow", "Ctrl+Q"))
-        self.menuHelpAbout.setText(_translate("MainWindow", "About"))
+        MainWindow.setWindowTitle(QtWidgets.QApplication.translate("MainWindow", "Pixel Mix", None, -1))
+        self.menuFile.setTitle(QtWidgets.QApplication.translate("MainWindow", "File", None, -1))
+        self.menuEdit.setTitle(QtWidgets.QApplication.translate("MainWindow", "Edit", None, -1))
+        self.menuHelp.setTitle(QtWidgets.QApplication.translate("MainWindow", "Help", None, -1))
+        self.mainToolBar.setWindowTitle(QtWidgets.QApplication.translate("MainWindow", "toolBar", None, -1))
+        self.sideToolBar.setWindowTitle(QtWidgets.QApplication.translate("MainWindow", "toolBar", None, -1))
+        self.menuFileCreate.setText(QtWidgets.QApplication.translate("MainWindow", "New", None, -1))
+        self.menuFileCreate.setToolTip(QtWidgets.QApplication.translate("MainWindow", "New", None, -1))
+        self.menuFileCreate.setShortcut(QtWidgets.QApplication.translate("MainWindow", "Ctrl+N", None, -1))
+        self.menuFileOpen.setText(QtWidgets.QApplication.translate("MainWindow", "Open", None, -1))
+        self.menuFileOpen.setToolTip(QtWidgets.QApplication.translate("MainWindow", "Open", None, -1))
+        self.menuFileOpen.setShortcut(QtWidgets.QApplication.translate("MainWindow", "Ctrl+O", None, -1))
+        self.menuFileSave.setText(QtWidgets.QApplication.translate("MainWindow", "Save", None, -1))
+        self.menuFileSave.setToolTip(QtWidgets.QApplication.translate("MainWindow", "Save", None, -1))
+        self.menuFileSave.setShortcut(QtWidgets.QApplication.translate("MainWindow", "Ctrl+S", None, -1))
+        self.menuFileSaveAs.setText(QtWidgets.QApplication.translate("MainWindow", "Save as ...", None, -1))
+        self.menuFileSaveAs.setShortcut(QtWidgets.QApplication.translate("MainWindow", "Ctrl+Shift+S", None, -1))
+        self.menuFileQuit.setText(QtWidgets.QApplication.translate("MainWindow", "Quit", None, -1))
+        self.menuFileQuit.setShortcut(QtWidgets.QApplication.translate("MainWindow", "Ctrl+Q", None, -1))
+        self.menuHelpAbout.setText(QtWidgets.QApplication.translate("MainWindow", "About", None, -1))
+
