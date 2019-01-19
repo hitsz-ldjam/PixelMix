@@ -87,6 +87,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.close()
 
     @Slot()
+    def on_menuEditPreferences_triggered(self):
+        print("Preferences")
+        dialog = QDialog(self)
+        dialog.setWindowTitle("Preferences")
+        dialog.show()
+        dialog.exec_()
+        # todo
+
+    @Slot()
     def on_menuHelpAbout_triggered(self):
         dialog = QDialog(self)
         dialog.setWindowTitle("About")

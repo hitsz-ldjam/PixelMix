@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'MainWindow.ui',
 # licensing of 'MainWindow.ui' applies.
 #
-# Created: Fri Jan 18 23:55:26 2019
+# Created: Sat Jan 19 18:39:57 2019
 #      by: pyside2-uic  running on PySide2 5.12.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -18,16 +18,17 @@ class Ui_MainWindow(object):
         MainWindow.setMinimumSize(QtCore.QSize(800, 600))
         MainWindow.setMouseTracking(False)
         MainWindow.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
-        MainWindow.setStyleSheet("background-color: rgb(150, 150, 150);\n"
-"")
+        MainWindow.setStyleSheet("")
         MainWindow.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedStates))
         MainWindow.setToolButtonStyle(QtCore.Qt.ToolButtonIconOnly)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setStyleSheet("background-color: #282828;")
         self.centralwidget.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedStates))
         self.centralwidget.setObjectName("centralwidget")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1197, 26))
+        self.menubar.setStyleSheet("")
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
@@ -37,14 +38,17 @@ class Ui_MainWindow(object):
         self.menuHelp.setObjectName("menuHelp")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setStyleSheet("background-color: #535353;")
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
         self.mainToolBar = QtWidgets.QToolBar(MainWindow)
         self.mainToolBar.setMinimumSize(QtCore.QSize(30, 30))
+        self.mainToolBar.setStyleSheet("background-color: #535353;")
         self.mainToolBar.setObjectName("mainToolBar")
         MainWindow.addToolBar(QtCore.Qt.TopToolBarArea, self.mainToolBar)
         self.sideToolBar = QtWidgets.QToolBar(MainWindow)
         self.sideToolBar.setMinimumSize(QtCore.QSize(30, 30))
+        self.sideToolBar.setStyleSheet("background-color: #535353;")
         self.sideToolBar.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedStates))
         self.sideToolBar.setObjectName("sideToolBar")
         MainWindow.addToolBar(QtCore.Qt.LeftToolBarArea, self.sideToolBar)
@@ -61,6 +65,8 @@ class Ui_MainWindow(object):
         self.menuHelpAbout = QtWidgets.QAction(MainWindow)
         self.menuHelpAbout.setCheckable(False)
         self.menuHelpAbout.setObjectName("menuHelpAbout")
+        self.menuEditPreferences = QtWidgets.QAction(MainWindow)
+        self.menuEditPreferences.setObjectName("menuEditPreferences")
         self.menuFile.addAction(self.menuFileCreate)
         self.menuFile.addAction(self.menuFileOpen)
         self.menuFile.addSeparator()
@@ -68,6 +74,7 @@ class Ui_MainWindow(object):
         self.menuFile.addAction(self.menuFileSaveAs)
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.menuFileQuit)
+        self.menuEdit.addAction(self.menuEditPreferences)
         self.menuHelp.addAction(self.menuHelpAbout)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuEdit.menuAction())
@@ -97,4 +104,6 @@ class Ui_MainWindow(object):
         self.menuFileQuit.setText(QtWidgets.QApplication.translate("MainWindow", "Quit", None, -1))
         self.menuFileQuit.setShortcut(QtWidgets.QApplication.translate("MainWindow", "Ctrl+Q", None, -1))
         self.menuHelpAbout.setText(QtWidgets.QApplication.translate("MainWindow", "About", None, -1))
+        self.menuEditPreferences.setText(QtWidgets.QApplication.translate("MainWindow", "Preferences", None, -1))
+        self.menuEditPreferences.setShortcut(QtWidgets.QApplication.translate("MainWindow", "Ctrl+Alt+;", None, -1))
 
