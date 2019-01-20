@@ -16,26 +16,30 @@ class Canvas(QDockWidget):
 
         self.__dockContent = QWidget()
 
-        self.__frame = QFrame(self.__dockContent)
-        self.__frame.setFrameShape(QFrame.Box)
-        self.__frame.setFrameShadow(QFrame.Plain)
-        self.__frame.installEventFilter(self)
+        self.frame = QFrame(self.__dockContent)
+        self.frame.setFrameShape(QFrame.Box)
+        self.frame.setFrameShadow(QFrame.Plain)
+        self.frame.installEventFilter(self)
 
         self.__gridLayout = QGridLayout(self.__dockContent)
         self.__gridLayout.setContentsMargins(2, 2, 2, 2)
-        self.__gridLayout.addWidget(self.__frame, 0, 0, 1, 1)
+        self.__gridLayout.addWidget(self.frame, 0, 0, 1, 1)
 
         self.setWidget(self.__dockContent)
         parent.addDockWidget(Qt.LeftDockWidgetArea, self)
 
+        # capture Canvas widget mouse event
+        self.frame.installEventFilter(parent)
+        self.frame.setMouseTracking(True)
+
         self.__painter = QPainter()
 
     def eventFilter(self, watched, event):
-        if watched == self.__frame and event.type() == QEvent.Paint:
-            self.__painter.begin(self.__frame)
-            self.__painter.drawImage(0, 0, self.image)
+        if watched == self.frame and event.type() == QEvent.Paint:
+            self.__painter.begin(self.frame)
+            self.__painter.drawImage(1, 1, self.image)
             self.__painter.end()
-        return True
+        return False
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -48,6 +52,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.centralwidget.hide()
         self.setDockNestingEnabled(True)
 
+        # tracking mouse
+        self.setMouseTracking(True)
+
         # move the main window to the center
         qr = self.frameGeometry()
         cp = QDesktopWidget().availableGeometry().center()
@@ -56,11 +63,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # create a canvas list
         self.__canvases = []
+        # record current canvas
+        self.__currCanvas = None
         # create a tool dock list
         self.__toolDocks = []
 
         # add a default canvas
         self.addCanvas(300, 300, QImage.Format_RGB888, "Untitled")
+        self.__currCanvas = self.__canvases[0]
 
         # create a painter
         self.__painter = QPainter()
@@ -125,11 +135,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dialog.exec_()
 
     def paintEvent(self, event):
-        for canvas in self.__canvases:
-            self.__painter.begin(canvas.image)
-            self.__painter.setPen(QPen(Qt.green, 3))
-            self.__painter.drawLine(0, 0, 100, 100)
-            self.__painter.end()
+        self.__painter.begin(self.__currCanvas.image)
+        self.__painter.setPen(QPen(Qt.green, 3))
+        self.__painter.drawLine(0, 0, 100, 100)
+        self.__painter.end()
 
     def mouseMoveEvent(self, event):
-        pass
+        print("Main Window mouse move")
+
+    def eventFilter(self, watched, event):
+        if self.__currCanvas is None:
+            return False
+
+        if watched == self.__currCanvas.frame and event.type() == QEvent.MouseMove:
+            print("x : %d, y : %d" % (event.x(), event.y()))
+            # todo to press mouse event
+        return False
