@@ -3,6 +3,8 @@ from PySide2.QtCore import *
 from PySide2.QtWidgets import *
 from PySide2.QtGui import *
 
+import Tool
+
 # main window UI
 from Ui_MainWindow import Ui_MainWindow
 
@@ -69,13 +71,6 @@ class Canvas(QDockWidget):
             return self.image
 
 
-@unique
-class ToolType(Enum):
-    Line = 0
-    Rect = 1
-    Ellipse = 2
-
-
 class MainWindow(QMainWindow, Ui_MainWindow):
 
     def __init__(self):
@@ -116,9 +111,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.addToolDock(Qt.RightDockWidgetArea, "Tool_" + str(i + 1))
 
         # drawing
-        self.__isDrawing = False
-        self.__currTool = ToolType.Line
-        self.__points = []
+        # self.__isDrawing = False
+        # self.__currTool = ToolType.Line
+        # self.__points = []
+        # create a tool list
+        self.__tools = []
+        # record current tool
+        self.__currTool = None
+
+        self.initTools()
 
         self.show()
 
@@ -138,6 +139,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.addDockWidget(area, dock)
         self.__toolDocks.append(dock)
         return dock
+
+    def initTools(self):
+        self.__tools.append(Tool.Line(self.__painter))
+        self.__tools.append(Tool.Rect(self.__painter))
+        self.__currTool = self.__tools[1]
+        self.__currTool.setTarget(self.__currCanvas)
 
     @Slot()
     def on_menuFileOpen_triggered(self):
@@ -188,34 +195,35 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             return False
 
         if watched == self.__currCanvas.frame:
-            if event.type() == QEvent.MouseButtonPress and event.button() == Qt.LeftButton:
-                # draw line
-                if self.__currTool == ToolType.Line:
-                    if self.__isDrawing:
-                        self.__currCanvas.endDblBuffer()
-                        self.__painter.begin(self.__currCanvas.getImage())
-                        self.__painter.setPen(QPen(Qt.green, 3))
-                        self.__painter.drawLine(self.__points[0], self.__points[1])
-                        self.__painter.end()
-                        self.__currCanvas.update()
-
-                        self.__points.clear()
-                        self.__isDrawing = False
-                    else:
-                        self.__points.append(event.pos())
-                        self.__points.append(QPoint(0, 0))
-                        self.__currCanvas.beginDblBuffer()
-                        self.__isDrawing = True
-
-            if event.type() == QEvent.MouseMove:
-                # draw line
-                if self.__currTool == ToolType.Line:
-                    if self.__isDrawing:
-                        self.__painter.begin(self.__currCanvas.getImage())
-                        self.__painter.setPen(QPen(Qt.green, 3))
-                        self.__painter.drawLine(self.__points[0], event.pos())
-                        self.__points[1] = event.pos()
-                        self.__painter.end()
-                        self.__currCanvas.update()
+            self.__currTool.process(event)
+        # if event.type() == QEvent.MouseButtonPress and event.button() == Qt.LeftButton:
+        #     # draw line
+        #     if self.__currTool == ToolType.Line:
+        #         if self.__isDrawing:
+        #             self.__currCanvas.endDblBuffer()
+        #             self.__painter.begin(self.__currCanvas.getImage())
+        #             self.__painter.setPen(QPen(Qt.green, 3))
+        #             self.__painter.drawLine(self.__points[0], self.__points[1])
+        #             self.__painter.end()
+        #             self.__currCanvas.update()
+        #
+        #             self.__points.clear()
+        #             self.__isDrawing = False
+        #         else:
+        #             self.__points.append(event.pos())
+        #             self.__points.append(QPoint(0, 0))
+        #             self.__currCanvas.beginDblBuffer()
+        #             self.__isDrawing = True
+        #
+        # if event.type() == QEvent.MouseMove:
+        #     # draw line
+        #     if self.__currTool == ToolType.Line:
+        #         if self.__isDrawing:
+        #             self.__painter.begin(self.__currCanvas.getImage())
+        #             self.__painter.setPen(QPen(Qt.green, 3))
+        #             self.__painter.drawLine(self.__points[0], event.pos())
+        #             self.__points[1] = event.pos()
+        #             self.__painter.end()
+        #             self.__currCanvas.update()
 
         return False
