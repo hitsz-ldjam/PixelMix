@@ -46,6 +46,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def __init__(self):
         super().__init__()
+
+        # get preferences
+        self.__preferences = Preferences("preferences.xml")
+
         self.setupUi(self)
 
         # hide default central widget
@@ -104,7 +108,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     @Slot()
     def on_menuFileOpen_triggered(self):
-        path = QFileDialog.getOpenFileName(self, "Open File", "C:/", "All File Formats (*.*)", "")
+        path, _ = QFileDialog.getOpenFileName(self,
+                                              "Open File",
+                                              filter="JPEG (*.jpg *.jpeg);;PNG (*.png);;All File Formats (*.*)",
+                                              options=QFileDialog.DontUseNativeDialog if self.__preferences.getPreference("UseNativeDialog") == "False" else 0)
         print(path)
 
     @Slot()
@@ -128,12 +135,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     @Slot()
     def on_menuEditPreferences_triggered(self):
-        print("Preferences")
-        dialog = QDialog(self)
+        dialog = QDialog()
+
+        cb = QCheckBox("Use native dialog", dialog)
+        if self.__preferences.getPreference("UseNativeDialog") == "True":
+            cb.toggle()
+        cb.stateChanged.connect(self.updateUseNativeDialog)
+
         dialog.setWindowTitle("Preferences")
         dialog.show()
         dialog.exec_()
-        # todo
+
+    def updateUseNativeDialog(self, state):
+        self.__preferences.setPreference("UseNativeDialog", state == Qt.Checked)
+        self.__preferences.savePreference()
 
     @Slot()
     def on_menuHelpAbout_triggered(self):
