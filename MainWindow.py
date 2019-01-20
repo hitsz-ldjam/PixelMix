@@ -4,6 +4,7 @@ from PySide2.QtGui import *
 
 # main window UI
 from Ui_MainWindow import Ui_MainWindow
+from PreferenceHelper import Preferences
 
 g_defaultWindowBackColor = QColor(150, 150, 150)
 
