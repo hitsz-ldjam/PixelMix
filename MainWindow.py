@@ -42,6 +42,12 @@ class Canvas(QDockWidget):
         self.frame.installEventFilter(parent)
         self.frame.setMouseTracking(True)
 
+        # change dock widget back ground color
+        pal = QPalette(self.palette())
+        pal.setColor(QPalette.Background, g_defaultWindowBackColor)
+        self.setAutoFillBackground(True)
+        self.setPalette(pal)
+
         self.__painter = QPainter()
 
         self.__begin = False
@@ -83,7 +89,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # hide default central widget
         self.centralwidget.hide()
-        self.setDockNestingEnabled(True)
 
         # tracking mouse
         self.setMouseTracking(True)
@@ -145,9 +150,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         return dock
 
     def initTools(self):
-        self.__tools.append(Tool.Line(self.__painter))
+        self.__tools.append(Tool.StraightLine(self.__painter))
         self.__tools.append(Tool.Rect(self.__painter))
-        self.__currTool = self.__tools[1]
+        self.__tools.append(Tool.Ellipse(self.__painter))
+        self.__tools.append(Tool.Line(self.__painter))
+        self.__currTool = self.__tools[3]
         self.__currTool.setTarget(self.__currCanvas)
 
     @Slot()
@@ -155,7 +162,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         path, _ = QFileDialog.getOpenFileName(self,
                                               "Open File",
                                               filter="JPEG (*.jpg *.jpeg);;PNG (*.png);;All File Formats (*.*)",
-                                              options=QFileDialog.DontUseNativeDialog if self.__preferences.get("UseNativeDialog") == "False" else 0)
+                                              options=QFileDialog.DontUseNativeDialog if self.__preferences.get(
+                                                  "UseNativeDialog") == "False" else 0)
         print(path)
 
     @Slot()
@@ -212,34 +220,5 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         if watched == self.__currCanvas.frame:
             self.__currTool.process(event)
-        # if event.type() == QEvent.MouseButtonPress and event.button() == Qt.LeftButton:
-        #     # draw line
-        #     if self.__currTool == ToolType.Line:
-        #         if self.__isDrawing:
-        #             self.__currCanvas.endDblBuffer()
-        #             self.__painter.begin(self.__currCanvas.getImage())
-        #             self.__painter.setPen(QPen(Qt.green, 3))
-        #             self.__painter.drawLine(self.__points[0], self.__points[1])
-        #             self.__painter.end()
-        #             self.__currCanvas.update()
-        #
-        #             self.__points.clear()
-        #             self.__isDrawing = False
-        #         else:
-        #             self.__points.append(event.pos())
-        #             self.__points.append(QPoint(0, 0))
-        #             self.__currCanvas.beginDblBuffer()
-        #             self.__isDrawing = True
-        #
-        # if event.type() == QEvent.MouseMove:
-        #     # draw line
-        #     if self.__currTool == ToolType.Line:
-        #         if self.__isDrawing:
-        #             self.__painter.begin(self.__currCanvas.getImage())
-        #             self.__painter.setPen(QPen(Qt.green, 3))
-        #             self.__painter.drawLine(self.__points[0], event.pos())
-        #             self.__points[1] = event.pos()
-        #             self.__painter.end()
-        #             self.__currCanvas.update()
 
         return False

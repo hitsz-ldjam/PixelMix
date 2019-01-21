@@ -1,5 +1,6 @@
 from xml.etree.ElementTree import *
 
+
 class Preferences:
     def __init__(self, filename):
         self.__filename = filename
