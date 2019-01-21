@@ -147,7 +147,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def initTools(self):
         self.__tools.append(Tool.Line(self.__painter))
         self.__tools.append(Tool.Rect(self.__painter))
-        self.__currTool = self.__tools[1]
+        self.__currTool = self.__tools[0]
         self.__currTool.setTarget(self.__currCanvas)
 
     @Slot()
