@@ -49,20 +49,20 @@ class StraightLine(ToolBase):
         self.endPoint = QPoint()
 
     def process(self, event):
-        # begin / end drawing
-        if event.type() == QEvent.MouseButtonPress and event.button() == Qt.LeftButton:
-            if not self.isDrawing:
-                # begin drawing
+        # begin drawing
+        if event.type() == QEvent.MouseButtonPress and event.button() == Qt.LeftButton and not self.isDrawing:
                 self.beginPoint = event.pos()
                 self.canvas.beginDblBuffer()
                 self.isDrawing = True
 
-            else:
-                # end drawing
+        # end drawing
+        if event.type() == QEvent.MouseButtonRelease and event.button() == Qt.LeftButton and self.isDrawing:
                 self.canvas.endDblBuffer()
                 self.painter.begin(self.canvas.getImage())
 
-                self.painter.drawLine(self.beginPoint, self.endPoint)
+                self.endPoint = event.pos()
+                if self.endPoint != self.beginPoint:
+                    self.painter.drawLine(self.beginPoint, self.endPoint)
 
                 self.painter.end()
                 self.canvas.update()
@@ -73,8 +73,8 @@ class StraightLine(ToolBase):
         if event.type() == QEvent.MouseMove and self.isDrawing:
             self.painter.begin(self.canvas.getImage())
 
-            self.painter.drawLine(self.beginPoint, event.pos())
             self.endPoint = event.pos()
+            self.painter.drawLine(self.beginPoint, self.endPoint)
 
             self.painter.end()
             self.canvas.update()
@@ -89,32 +89,32 @@ class Rect(ToolBase):
         self.endPoint = QPoint()
 
     def process(self, event):
-        # begin / end drawing
-        if event.type() == QEvent.MouseButtonPress and event.button() == Qt.LeftButton:
-            if not self.isDrawing:
-                # begin drawing
+        # begin drawing
+        if event.type() == QEvent.MouseButtonPress and event.button() == Qt.LeftButton and not self.isDrawing:
                 self.beginPoint = event.pos()
                 self.canvas.beginDblBuffer()
                 self.isDrawing = True
 
-            else:
-                # end drawing
-                self.canvas.endDblBuffer()
-                self.painter.begin(self.canvas.getImage())
+        # end drawing
+        if event.type() == QEvent.MouseButtonRelease and event.button() == Qt.LeftButton and self.isDrawing:
+            self.canvas.endDblBuffer()
+            self.painter.begin(self.canvas.getImage())
 
+            self.endPoint = event.pos()
+            if self.endPoint != self.beginPoint:
                 self.painter.drawRect(self.calculateRect(self.beginPoint, self.endPoint))
 
-                self.painter.end()
-                self.canvas.update()
+            self.painter.end()
+            self.canvas.update()
 
-                self.isDrawing = False
+            self.isDrawing = False
 
         # while drawing
         if event.type() == QEvent.MouseMove and self.isDrawing:
             self.painter.begin(self.canvas.getImage())
 
-            self.painter.drawRect(self.calculateRect(self.beginPoint, event.pos()))
             self.endPoint = event.pos()
+            self.painter.drawRect(self.calculateRect(self.beginPoint, self.endPoint))
 
             self.painter.end()
             self.canvas.update()
