@@ -8,11 +8,11 @@ class Preferences:
     # def __del__(self):
     #     self.savePreference()
 
-    def getPreference(self, preferenceName):
+    def get(self, preferenceName):
         return self.__tree.getroot().findall(preferenceName)[0].text
 
-    def setPreference(self, preferenceName, value):
+    def set(self, preferenceName, value):
         self.__tree.getroot().findall(preferenceName)[0].text = str(value)
 
-    def savePreference(self):
+    def saveAll(self):
         self.__tree.write(self.__filename)

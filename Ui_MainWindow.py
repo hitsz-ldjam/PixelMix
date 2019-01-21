@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'MainWindow.ui',
 # licensing of 'MainWindow.ui' applies.
 #
-# Created: Sat Jan 19 18:39:57 2019
+# Created: Mon Jan 21 11:14:56 2019
 #      by: pyside2-uic  running on PySide2 5.12.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -23,7 +23,6 @@ class Ui_MainWindow(object):
         MainWindow.setToolButtonStyle(QtCore.Qt.ToolButtonIconOnly)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setStyleSheet("background-color: #282828;")
-        self.centralwidget.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedStates))
         self.centralwidget.setObjectName("centralwidget")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -49,7 +48,6 @@ class Ui_MainWindow(object):
         self.sideToolBar = QtWidgets.QToolBar(MainWindow)
         self.sideToolBar.setMinimumSize(QtCore.QSize(30, 30))
         self.sideToolBar.setStyleSheet("background-color: #535353;")
-        self.sideToolBar.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedStates))
         self.sideToolBar.setObjectName("sideToolBar")
         MainWindow.addToolBar(QtCore.Qt.LeftToolBarArea, self.sideToolBar)
         self.menuFileCreate = QtWidgets.QAction(MainWindow)

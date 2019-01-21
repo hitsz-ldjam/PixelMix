@@ -4,6 +4,7 @@ from PySide2.QtWidgets import *
 from PySide2.QtGui import *
 
 import Tool
+import Preferences
 
 # main window UI
 from Ui_MainWindow import Ui_MainWindow
@@ -77,6 +78,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
 
+        # fetch preferences
+        self.__preferences = Preferences.Preferences("preferences.xml")
+
         # hide default central widget
         self.centralwidget.hide()
         self.setDockNestingEnabled(True)
@@ -148,7 +152,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     @Slot()
     def on_menuFileOpen_triggered(self):
-        path = QFileDialog.getOpenFileName(self, "Open File", "C:/", "All File Formats (*.*)", "")
+        path, _ = QFileDialog.getOpenFileName(self,
+                                              "Open File",
+                                              filter="JPEG (*.jpg *.jpeg);;PNG (*.png);;All File Formats (*.*)",
+                                              options=QFileDialog.DontUseNativeDialog if self.__preferences.get("UseNativeDialog") == "False" else 0)
         print(path)
 
     @Slot()
@@ -172,12 +179,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     @Slot()
     def on_menuEditPreferences_triggered(self):
-        print("Preferences")
-        dialog = QDialog(self)
+        dialog = QDialog()
+
+        cb = QCheckBox("Use native dialog", dialog)
+        if self.__preferences.get("UseNativeDialog") == "True":
+            cb.toggle()
+        cb.stateChanged.connect(self.updateUseNativeDialog)
+
         dialog.setWindowTitle("Preferences")
+        dialog.resize(280, 200)
         dialog.show()
         dialog.exec_()
-        # todo
+
+    def updateUseNativeDialog(self, state):
+        self.__preferences.set("UseNativeDialog", state == Qt.Checked)
+        self.__preferences.saveAll()
 
     @Slot()
     def on_menuHelpAbout_triggered(self):
