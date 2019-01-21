@@ -1,7 +1,7 @@
-from enum import Enum, unique
 from PySide2.QtCore import *
 from PySide2.QtWidgets import *
 from PySide2.QtGui import *
+from ColorWidget import ColorDockWidget
 
 import Tool
 import Preferences
@@ -38,7 +38,7 @@ class Canvas(QDockWidget):
         self.setWidget(self.__dockContent)
         parent.addDockWidget(Qt.LeftDockWidgetArea, self)
 
-        # capture Canvas widget mouse event
+        # capture Canvas widget event
         self.frame.installEventFilter(parent)
         self.frame.setMouseTracking(True)
 
@@ -119,10 +119,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for i in range(1):
             self.addToolDock(Qt.RightDockWidgetArea, "Tool_" + str(i + 1))
 
-        # drawing
-        # self.__isDrawing = False
-        # self.__currTool = ToolType.Line
-        # self.__points = []
+        # add ColorDialog
+        colorDock = ColorDockWidget(self)
+        self.addDockWidget(Qt.RightDockWidgetArea, colorDock)
+        self.__toolDocks.append(colorDock)
+
         # create a tool list
         self.__tools = []
         # record current tool
@@ -210,9 +211,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dialog.setWindowModality(Qt.ApplicationModal)
         dialog.show()
         dialog.exec_()
-
-    def paintEvent(self, event):
-        pass
 
     def eventFilter(self, watched, event):
         if self.__currCanvas is None:

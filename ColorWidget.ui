@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ColorWidget</class>
+ <widget class="QWidget" name="ColorWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>866</width>
+    <height>502</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QWidget" name="verticalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>10</y>
+     <width>71</width>
+     <height>261</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QLabel" name="H">
+      <property name="text">
+       <string>H :</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="S">
+      <property name="text">
+       <string>S :</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="V">
+      <property name="text">
+       <string>V :</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="Line" name="line">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="R">
+      <property name="text">
+       <string>R :</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="G">
+      <property name="text">
+       <string>G :</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="B">
+      <property name="text">
+       <string>B :</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="colorRect" native="true">
+   <property name="geometry">
+    <rect>
+     <x>11</x>
+     <y>11</y>
+     <width>260</width>
+     <height>260</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QSlider" name="hueSlider">
+   <property name="geometry">
+    <rect>
+     <x>278</x>
+     <y>11</y>
+     <width>22</width>
+     <height>260</height>
+    </rect>
+   </property>
+   <property name="maximum">
+    <number>359</number>
+   </property>
+   <property name="value">
+    <number>0</number>
+   </property>
+   <property name="sliderPosition">
+    <number>0</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
