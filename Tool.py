@@ -26,7 +26,7 @@ class ToolBase(object):
         self.canvas = canvas
         self.canvas.setCursor(self.cursor)
 
-    def process(self, event):
+    def process(self, pen, event):
         pass
 
     @staticmethod
@@ -48,7 +48,7 @@ class StraightLine(ToolBase):
         self.beginPoint = QPoint()
         self.endPoint = QPoint()
 
-    def process(self, event):
+    def process(self, pen, event):
         # begin / end drawing
         if event.type() == QEvent.MouseButtonPress and event.button() == Qt.LeftButton:
             if not self.isDrawing:
@@ -61,7 +61,7 @@ class StraightLine(ToolBase):
                 # end drawing
                 self.canvas.endDblBuffer()
                 self.painter.begin(self.canvas.getImage())
-
+                self.painter.setPen(pen)
                 self.painter.drawLine(self.beginPoint, self.endPoint)
 
                 self.painter.end()
@@ -72,7 +72,7 @@ class StraightLine(ToolBase):
         # while drawing
         if event.type() == QEvent.MouseMove and self.isDrawing:
             self.painter.begin(self.canvas.getImage())
-
+            self.painter.setPen(pen)
             self.painter.drawLine(self.beginPoint, event.pos())
             self.endPoint = event.pos()
 
@@ -88,7 +88,7 @@ class Rect(ToolBase):
         self.beginPoint = QPoint()
         self.endPoint = QPoint()
 
-    def process(self, event):
+    def process(self, pen, event):
         # begin / end drawing
         if event.type() == QEvent.MouseButtonPress and event.button() == Qt.LeftButton:
             if not self.isDrawing:
@@ -128,7 +128,7 @@ class Ellipse(ToolBase):
         self.beginPoint = QPoint()
         self.endPoint = QPoint()
 
-    def process(self, event):
+    def process(self, pen, event):
         # begin / end drawing
         if event.type() == QEvent.MouseButtonPress and event.button() == Qt.LeftButton:
             if not self.isDrawing:
@@ -167,7 +167,7 @@ class Line(ToolBase):
         self.cursor = Qt.CrossCursor
         self.lastPoint = QPoint()
 
-    def process(self, event):
+    def process(self, pen, event):
         # begin / end drawing
         if event.type() == QEvent.MouseButtonPress and event.button() == Qt.LeftButton:
             if not self.isDrawing:

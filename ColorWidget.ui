@@ -13,84 +13,23 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QWidget" name="verticalLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>320</x>
-     <y>10</y>
-     <width>71</width>
-     <height>261</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <widget class="QLabel" name="H">
-      <property name="text">
-       <string>H :</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="S">
-      <property name="text">
-       <string>S :</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="V">
-      <property name="text">
-       <string>V :</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="Line" name="line">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="R">
-      <property name="text">
-       <string>R :</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="G">
-      <property name="text">
-       <string>G :</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="B">
-      <property name="text">
-       <string>B :</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
   <widget class="QWidget" name="colorRect" native="true">
    <property name="geometry">
     <rect>
      <x>11</x>
      <y>11</y>
-     <width>260</width>
-     <height>260</height>
+     <width>230</width>
+     <height>230</height>
     </rect>
    </property>
   </widget>
   <widget class="QSlider" name="hueSlider">
    <property name="geometry">
     <rect>
-     <x>278</x>
+     <x>250</x>
      <y>11</y>
      <width>22</width>
-     <height>260</height>
+     <height>230</height>
     </rect>
    </property>
    <property name="maximum">
@@ -105,6 +44,109 @@
    <property name="orientation">
     <enum>Qt::Vertical</enum>
    </property>
+  </widget>
+  <widget class="QWidget" name="gridLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>10</y>
+     <width>101</width>
+     <height>231</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="5" column="0">
+     <widget class="QLabel" name="G">
+      <property name="text">
+       <string>G :</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="Line" name="line">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="V">
+      <property name="text">
+       <string>V :</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0">
+     <widget class="QLabel" name="B">
+      <property name="text">
+       <string>B :</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="H">
+      <property name="text">
+       <string>H :</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="R">
+      <property name="text">
+       <string>R :</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="S">
+      <property name="text">
+       <string>S :</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QSpinBox" name="hSpinBox">
+      <property name="maximum">
+       <number>359</number>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QSpinBox" name="sSpinBox">
+      <property name="maximum">
+       <number>100</number>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QSpinBox" name="vSpinBox">
+      <property name="maximum">
+       <number>100</number>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QSpinBox" name="rSpinBox">
+      <property name="maximum">
+       <number>255</number>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1">
+     <widget class="QSpinBox" name="gSpinBox">
+      <property name="maximum">
+       <number>255</number>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="1">
+     <widget class="QSpinBox" name="bSpinBox">
+      <property name="maximum">
+       <number>255</number>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>

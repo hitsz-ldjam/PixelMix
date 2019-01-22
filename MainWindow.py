@@ -104,7 +104,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # record current canvas
         self.__currCanvas = None
         # create a tool dock list
-        self.__toolDocks = []
+        self.__toolDocks = {}
 
         # add a default canvas
         self.addCanvas(400, 600, QImage.Format_RGB888, "Untitled")
@@ -112,6 +112,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # create a painter
         self.__painter = QPainter()
+        self.__pen = QPen()
         # Antialias
         self.__painter.setRenderHint(QPainter.Antialiasing, True)
 
@@ -119,10 +120,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for i in range(1):
             self.addToolDock(Qt.RightDockWidgetArea, "Tool_" + str(i + 1))
 
-        # add ColorDialog
-        colorDock = ColorDockWidget(self)
-        self.addDockWidget(Qt.RightDockWidgetArea, colorDock)
-        self.__toolDocks.append(colorDock)
+        # add Color widget
+        colorDockWidget = ColorDockWidget(self)
+        colorDockWidget.dockContent.colorChangedSignal.connect(self.colorChanged)
+        self.addDockWidget(Qt.RightDockWidgetArea, colorDockWidget)
+        self.__toolDocks["colorDockWidget"] = colorDockWidget
 
         # create a tool list
         self.__tools = []
@@ -147,7 +149,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def addToolDock(self, area, title):
         dock = QDockWidget(title)
         self.addDockWidget(area, dock)
-        self.__toolDocks.append(dock)
+        self.__toolDocks[title] = dock
         return dock
 
     def initTools(self):
@@ -155,7 +157,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.__tools.append(Tool.Rect(self.__painter))
         self.__tools.append(Tool.Ellipse(self.__painter))
         self.__tools.append(Tool.Line(self.__painter))
-        self.__currTool = self.__tools[3]
+        self.__currTool = self.__tools[0]
         self.__currTool.setTarget(self.__currCanvas)
 
     @Slot()
@@ -217,6 +219,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             return False
 
         if watched == self.__currCanvas.frame:
-            self.__currTool.process(event)
+            self.__currTool.process(self.__pen, event)
 
         return False
+
+    @Slot()
+    def colorChanged(self, color):
+        self.__pen.setColor(color)
+        self.__pen.setWidth(2)
