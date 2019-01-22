@@ -62,6 +62,7 @@ class StraightLine(ToolBase):
                 self.canvas.endDblBuffer()
                 self.painter.begin(self.canvas.getImage())
                 self.painter.setPen(pen)
+                
                 self.painter.drawLine(self.beginPoint, self.endPoint)
 
                 self.painter.end()
@@ -73,6 +74,7 @@ class StraightLine(ToolBase):
         if event.type() == QEvent.MouseMove and self.isDrawing:
             self.painter.begin(self.canvas.getImage())
             self.painter.setPen(pen)
+
             self.painter.drawLine(self.beginPoint, event.pos())
             self.endPoint = event.pos()
 
@@ -101,6 +103,7 @@ class Rect(ToolBase):
                 # end drawing
                 self.canvas.endDblBuffer()
                 self.painter.begin(self.canvas.getImage())
+                self.painter.setPen(pen)
 
                 self.painter.drawRect(self.calculateRect(self.beginPoint, self.endPoint))
 
@@ -112,6 +115,7 @@ class Rect(ToolBase):
         # while drawing
         if event.type() == QEvent.MouseMove and self.isDrawing:
             self.painter.begin(self.canvas.getImage())
+            self.painter.setPen(pen)
 
             self.painter.drawRect(self.calculateRect(self.beginPoint, event.pos()))
             self.endPoint = event.pos()
@@ -141,6 +145,7 @@ class Ellipse(ToolBase):
                 # end drawing
                 self.canvas.endDblBuffer()
                 self.painter.begin(self.canvas.getImage())
+                self.painter.setPen(pen)
 
                 self.painter.drawEllipse(self.calculateRect(self.beginPoint, self.endPoint))
 
@@ -152,6 +157,7 @@ class Ellipse(ToolBase):
         # while drawing
         if event.type() == QEvent.MouseMove and self.isDrawing:
             self.painter.begin(self.canvas.getImage())
+            self.painter.setPen(pen)
 
             self.painter.drawEllipse(self.calculateRect(self.beginPoint, event.pos()))
             self.endPoint = event.pos()
@@ -168,19 +174,20 @@ class Line(ToolBase):
         self.lastPoint = QPoint()
 
     def process(self, pen, event):
-        # begin / end drawing
+        # begin drawing
         if event.type() == QEvent.MouseButtonPress and event.button() == Qt.LeftButton:
             if not self.isDrawing:
-                # begin drawing
+                
                 self.lastPoint = event.pos()
                 self.isDrawing = True
-
+        # end drawing
         if event.type() == QEvent.MouseButtonRelease and event.button() == Qt.LeftButton:
             self.isDrawing = False
 
-            # while drawing
+        # while drawing
         if event.type() == QEvent.MouseMove and self.isDrawing:
             self.painter.begin(self.canvas.getImage())
+            self.painter.setPen(pen)
 
             self.painter.drawLine(self.lastPoint, event.pos())
             self.lastPoint = event.pos()
