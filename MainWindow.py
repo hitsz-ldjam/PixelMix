@@ -12,8 +12,6 @@ from ColorWidget import ColorDockWidget
 # main window UI
 from Ui_MainWindow import Ui_MainWindow
 
-g_defaultWindowBackColor = QColor(150, 150, 150)
-
 
 class MainWindow(QMainWindow, Ui_MainWindow):
 
@@ -42,7 +40,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.__currCanvas = None
 
         # add a default canvas
-        self.addCanvas(400, 600, QImage.Format_RGB888, "Untitled")
+        canvas = Canvas.new(854, 480, title="Untitled", parent=self)
+        self.__canvases.append(canvas)
         self.__currCanvas = self.__canvases[0]
 
         # create a painter
@@ -76,17 +75,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.initSideToolBar()
 
         self.showMaximized()
-
-    def addCanvas(self, width, height, imgFormat, title, color=g_defaultWindowBackColor):
-        # set background color
-        canvas = Canvas(width, height, imgFormat, title=title, parent=self)
-        pal = QPalette(canvas.palette())
-        pal.setColor(QPalette.Background, color)
-        canvas.setAutoFillBackground(True)
-        canvas.setPalette(pal)
-
-        self.__canvases.append(canvas)
-        return canvas
 
     def addToolDock(self, area, title):
         dock = QDockWidget(title)
@@ -124,7 +112,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.__sideToolBtn[0].setDown(True)
 
     def switchTool(self):
-        print("tool switch")
         # magic
         prevTool = self.__currTool.type.value - 1
         currTool = int(self.sender().objectName()[13:]) - 1
@@ -147,13 +134,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     @Slot()
     def on_menuFileOpen_triggered(self):
+        options = QFileDialog.DontUseNativeDialog if self.__preferences.get("UseNativeDialog") == "False" else 0
+        # options |= QFileDialog.Options()
         path, _ = QFileDialog.getOpenFileName(self,
                                               "Open File",
                                               filter="JPEG (*.jpg *.jpeg);;PNG (*.png);;All File Formats (*.*)",
-                                              options=QFileDialog.DontUseNativeDialog if self.__preferences.get("UseNativeDialog") == "False" else 0)
+                                              options=options)
         title = path.rpartition("/")[2]
-        print(path, title)
+        canvas = Canvas.open(path, title=title, parent=self)
+        self.__canvases.append(canvas)
         # todo
+        # switch focus canvas
+        # delete these after test
+        self.__currCanvas = canvas
+        self.__currTool.setTarget(self.__currCanvas)
 
     @Slot()
     def on_menuFileCreate_triggered(self):

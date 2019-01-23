@@ -2,16 +2,13 @@ from PySide2.QtCore import *
 from PySide2.QtWidgets import *
 from PySide2.QtGui import *
 
-g_defaultWindowBackColor = QColor(150, 150, 150)
-
 
 class Canvas(QDockWidget):
-    def __init__(self, width, height, imgFormat, initColor=Qt.white, *, title, parent):
+    def __init__(self, initImg, *, title, parent):
         super().__init__(title, parent)
 
         # image used to present
-        self.image = QImage(width, height, imgFormat)
-        self.image.fill(initColor)
+        self.image = initImg
 
         # double buffer
         self.tempImage = QImage(self.image)
@@ -35,14 +32,26 @@ class Canvas(QDockWidget):
         self.frame.setMouseTracking(True)
 
         # change dock widget back ground color
+        __defaultWindowBackColor = QColor(150, 150, 150)
         pal = QPalette(self.palette())
-        pal.setColor(QPalette.Background, g_defaultWindowBackColor)
+        pal.setColor(QPalette.Background, __defaultWindowBackColor)
         self.setAutoFillBackground(True)
         self.setPalette(pal)
 
         self.__painter = QPainter()
 
         self.__begin = False
+
+    @classmethod
+    def new(cls, width, height, imgFormat=QImage.Format_RGB888, initColor=Qt.white, *, title, parent):
+        image = QImage(width, height, imgFormat)
+        image.fill(initColor)
+        return cls(image, title=title, parent=parent)
+
+    @classmethod
+    def open(cls, path, *, title, parent):
+        image = QImage(path)
+        return cls(image, title=title, parent=parent)
 
     def eventFilter(self, watched, event):
         if watched == self.frame and event.type() == QEvent.Paint:
