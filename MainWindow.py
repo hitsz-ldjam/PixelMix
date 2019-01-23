@@ -3,81 +3,16 @@ from collections import namedtuple
 from PySide2.QtCore import *
 from PySide2.QtWidgets import *
 from PySide2.QtGui import *
-from ColorWidget import ColorDockWidget
 
 import Tool
-import Preferences
+from Preferences import Preferences
+from Canvas import Canvas
+from ColorWidget import ColorDockWidget
 
 # main window UI
 from Ui_MainWindow import Ui_MainWindow
 
 g_defaultWindowBackColor = QColor(150, 150, 150)
-
-
-class Canvas(QDockWidget):
-
-    def __init__(self, width, height, imgFormat, initColor=Qt.white, *, title, parent):
-        super().__init__(title, parent)
-
-        # image used to present
-        self.image = QImage(width, height, imgFormat)
-        self.image.fill(initColor)
-
-        # double buffer
-        self.tempImage = QImage(self.image)
-
-        self.__dockContent = QWidget()
-
-        self.frame = QFrame(self.__dockContent)
-        self.frame.setFrameShape(QFrame.Box)
-        self.frame.setFrameShadow(QFrame.Plain)
-        self.frame.installEventFilter(self)
-
-        self.__gridLayout = QGridLayout(self.__dockContent)
-        self.__gridLayout.setContentsMargins(2, 2, 2, 2)
-        self.__gridLayout.addWidget(self.frame, 0, 0, 1, 1)
-
-        self.setWidget(self.__dockContent)
-        parent.addDockWidget(Qt.LeftDockWidgetArea, self)
-
-        # capture Canvas widget event
-        self.frame.installEventFilter(parent)
-        self.frame.setMouseTracking(True)
-
-        # change dock widget back ground color
-        pal = QPalette(self.palette())
-        pal.setColor(QPalette.Background, g_defaultWindowBackColor)
-        self.setAutoFillBackground(True)
-        self.setPalette(pal)
-
-        self.__painter = QPainter()
-
-        self.__begin = False
-
-    def eventFilter(self, watched, event):
-        if watched == self.frame and event.type() == QEvent.Paint:
-            self.__painter.begin(self.frame)
-
-            if self.__begin:
-                self.__painter.drawImage(1, 1, self.tempImage)
-                self.tempImage = self.image.copy()
-            else:
-                self.__painter.drawImage(1, 1, self.image)
-
-            self.__painter.end()
-        return False
-
-    def beginDblBuffer(self):
-        self.__begin = True
-
-    def endDblBuffer(self):
-        self.__begin = False
-
-    def getImage(self):
-        if self.__begin:
-            return self.tempImage
-        else:
-            return self.image
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -87,7 +22,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
 
         # fetch preferences
-        self.__preferences = Preferences.Preferences("preferences.xml")
+        self.__preferences = Preferences("preferences.xml")
 
         # hide default central widget
         self.centralwidget.hide()
@@ -105,8 +40,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.__canvases = []
         # record current canvas
         self.__currCanvas = None
-        # create a tool dock list
-        self.__toolDocks = {}
 
         # add a default canvas
         self.addCanvas(400, 600, QImage.Format_RGB888, "Untitled")
@@ -115,8 +48,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # create a painter
         self.__painter = QPainter()
         self.__pen = QPen()
-        # Antialias
+        # anti aliasing
         self.__painter.setRenderHint(QPainter.Antialiasing, True)
+
+        # create a tool dock list
+        self.__toolDocks = {}
 
         # test (add some tool docks)
         for i in range(1):
@@ -135,9 +71,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.initTools()
 
-        # add paint tools
+        # add paint tools to side bar
         self.__sideToolBtn = []
-        self.setupSideToolBar()
+        self.initSideToolBar()
 
         self.showMaximized()
 
@@ -159,38 +95,55 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         return dock
 
     def initTools(self):
+        self.__tools.append(Tool.Brush(self.__painter))
         self.__tools.append(Tool.StraightLine(self.__painter))
         self.__tools.append(Tool.Rect(self.__painter))
         self.__tools.append(Tool.Ellipse(self.__painter))
-        self.__tools.append(Tool.Line(self.__painter))
-        self.__currTool = self.__tools[3]
+        self.__currTool = self.__tools[0]
         self.__currTool.setTarget(self.__currCanvas)
 
-    def setupSideToolBar(self):
+    def initSideToolBar(self):
         btnInfo = namedtuple("btnInfo", "type icon")
-        toolBtnInfo = [btnInfo(Tool.ToolType.StraightLine, "resources/LineTool.svg"),
+        toolBtnInfo = [btnInfo(Tool.ToolType.Brush, "resources/BrushTool.svg"),
+                       btnInfo(Tool.ToolType.Null, ""),
+                       btnInfo(Tool.ToolType.StraightLine, "resources/LineTool.svg"),
                        btnInfo(Tool.ToolType.Rect, "resources/RectangleTool.svg"),
-                       btnInfo(Tool.ToolType.Ellipse, "resources/EllipseTool.svg"),
-                       btnInfo(Tool.ToolType.Line, "resources/BrushTool.svg")]
+                       btnInfo(Tool.ToolType.Ellipse, "resources/EllipseTool.svg")]
 
         for info in toolBtnInfo:
-            btn = QToolButton(self)
-            btn.setObjectName("PaintToolType" + str(info.type.value))
-            btn.setIcon(QIcon(info.icon))
-            btn.clicked.connect(self.switchTool)
-            self.sideToolBar.addWidget(btn)
-            self.__sideToolBtn.append(btn)
+            if info.type == Tool.ToolType.Null:
+                self.sideToolBar.addSeparator()
+            else:
+                btn = QToolButton(self)
+                btn.setObjectName("PaintToolType" + str(info.type.value))
+                btn.setIcon(QIcon(info.icon))
+                btn.clicked.connect(self.switchTool)
+                self.sideToolBar.addWidget(btn)
+                self.__sideToolBtn.append(btn)
+
+        self.__sideToolBtn[0].setDown(True)
 
     def switchTool(self):
-        self.sender().setDown(True)
-
+        print("tool switch")
         # magic
         prevTool = self.__currTool.type.value - 1
-        self.__sideToolBtn[prevTool].setDown(False)
+        currTool = int(self.sender().objectName()[13:]) - 1
 
-        # magic again
-        self.__currTool = self.__tools[int(self.sender().objectName()[13:]) - 1]
-        self.__currTool.setTarget(self.__currCanvas)
+        self.sender().setDown(True)
+        if prevTool != currTool:
+            self.__sideToolBtn[prevTool].setDown(False)
+
+            self.__currTool = self.__tools[currTool]
+            self.__currTool.setTarget(self.__currCanvas)
+
+    def eventFilter(self, watched, event):
+        if self.__currCanvas is None:
+            return False
+
+        if watched == self.__currCanvas.frame:
+            self.__currTool.process(self.__pen, event)
+
+        return False
 
     @Slot()
     def on_menuFileOpen_triggered(self):
@@ -252,15 +205,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dialog.setWindowModality(Qt.ApplicationModal)
         dialog.show()
         dialog.exec_()
-
-    def eventFilter(self, watched, event):
-        if self.__currCanvas is None:
-            return False
-
-        if watched == self.__currCanvas.frame:
-            self.__currTool.process(self.__pen, event)
-
-        return False
 
     @Slot()
     def colorChanged(self, color):

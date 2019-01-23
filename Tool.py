@@ -7,10 +7,10 @@ from PySide2.QtGui import *
 @unique
 class ToolType(Enum):
     Null = 0
-    StraightLine = 1
-    Rect = 2
-    Ellipse = 3
-    Line = 4
+    Brush = 1
+    StraightLine = 2
+    Rect = 3
+    Ellipse = 4
 
 
 class ToolBase(object):
@@ -40,6 +40,36 @@ class ToolBase(object):
         return QRect(topLeft, bottomRight)
 
 
+class Brush(ToolBase):
+    def __init__(self, painter, canvas=None):
+        super().__init__(painter, canvas)
+        self.type = ToolType.Brush
+        self.cursor = Qt.CrossCursor
+        self.lastPoint = QPoint()
+
+    def process(self, pen, event):
+        # begin drawing
+        if event.type() == QEvent.MouseButtonPress and event.button() == Qt.LeftButton:
+            if not self.isDrawing:
+
+                self.lastPoint = event.pos()
+                self.isDrawing = True
+        # end drawing
+        if event.type() == QEvent.MouseButtonRelease and event.button() == Qt.LeftButton:
+            self.isDrawing = False
+
+        # while drawing
+        if event.type() == QEvent.MouseMove and self.isDrawing:
+            self.painter.begin(self.canvas.getImage())
+            self.painter.setPen(pen)
+
+            self.painter.drawLine(self.lastPoint, event.pos())
+            self.lastPoint = event.pos()
+
+            self.painter.end()
+            self.canvas.update()
+
+
 class StraightLine(ToolBase):
     def __init__(self, painter, canvas=None):
         super().__init__(painter, canvas)
@@ -62,7 +92,7 @@ class StraightLine(ToolBase):
                 self.canvas.endDblBuffer()
                 self.painter.begin(self.canvas.getImage())
                 self.painter.setPen(pen)
-                
+
                 self.painter.drawLine(self.beginPoint, self.endPoint)
 
                 self.painter.end()
@@ -161,36 +191,6 @@ class Ellipse(ToolBase):
 
             self.painter.drawEllipse(self.calculateRect(self.beginPoint, event.pos()))
             self.endPoint = event.pos()
-
-            self.painter.end()
-            self.canvas.update()
-
-
-class Line(ToolBase):
-    def __init__(self, painter, canvas=None):
-        super().__init__(painter, canvas)
-        self.type = ToolType.Line
-        self.cursor = Qt.CrossCursor
-        self.lastPoint = QPoint()
-
-    def process(self, pen, event):
-        # begin drawing
-        if event.type() == QEvent.MouseButtonPress and event.button() == Qt.LeftButton:
-            if not self.isDrawing:
-                
-                self.lastPoint = event.pos()
-                self.isDrawing = True
-        # end drawing
-        if event.type() == QEvent.MouseButtonRelease and event.button() == Qt.LeftButton:
-            self.isDrawing = False
-
-        # while drawing
-        if event.type() == QEvent.MouseMove and self.isDrawing:
-            self.painter.begin(self.canvas.getImage())
-            self.painter.setPen(pen)
-
-            self.painter.drawLine(self.lastPoint, event.pos())
-            self.lastPoint = event.pos()
 
             self.painter.end()
             self.canvas.update()
