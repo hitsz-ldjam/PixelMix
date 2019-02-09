@@ -47,6 +47,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # create a painter
         self.__painter = QPainter()
         self.__pen = QPen()
+        self.__pen.setWidth(2)
         # anti aliasing
         self.__painter.setRenderHint(QPainter.Antialiasing, True)
 
@@ -75,6 +76,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.initSideToolBar()
 
         self.showMaximized()
+
+    def addCanvas(self, canvas):
+        # tabify the new dock widget
+        if len(self.__canvases) is not 0:
+            self.tabifyDockWidget(self.__currCanvas, canvas)
+
+        self.__canvases.append(canvas)
+        # focus on new canvas
+        self.setCurrCanvas(canvas)
+
+    def removeCanvas(self, canvas):
+        # remove canvas
+        self.__canvases.remove(canvas)
+        self.removeDockWidget(canvas)
+
+        # if current canvas is removed
+        # change the current canvas
+        if canvas is self.__currCanvas:
+            if len(self.__canvases) == 0:
+                self.__currCanvas = None
+            else:
+                self.setCurrCanvas(self.__canvases[0])
+
+        canvas.deleteLater()
 
     def addToolDock(self, area, title):
         dock = QDockWidget(title)
@@ -140,14 +165,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                                               "Open File",
                                               filter="JPEG (*.jpg *.jpeg);;PNG (*.png);;All File Formats (*.*)",
                                               options=options)
+        # if canceled
+        if path is "":
+            return
+
         title = path.rpartition("/")[2]
         canvas = Canvas.open(path, title=title, parent=self)
-        self.__canvases.append(canvas)
-        # todo
-        # switch focus canvas
-        # delete these after test
-        self.__currCanvas = canvas
-        self.__currTool.setTarget(self.__currCanvas)
+
+        self.addCanvas(canvas)
 
     @Slot()
     def on_menuFileCreate_triggered(self):
@@ -156,13 +181,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     @Slot()
     def on_menuFileSave_triggered(self):
-        # todo
-        print("Save")
+        self.__currCanvas.save()
 
     @Slot()
     def on_menuFileSaveAs_triggered(self):
-        # todo
-        print("SaveAs")
+        self.__currCanvas.saveAs()
 
     @Slot()
     def on_menuFileQuit_triggered(self):
@@ -204,3 +227,42 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def colorChanged(self, color):
         self.__pen.setColor(color)
         self.__pen.setWidth(2)
+
+    @Slot()
+    def currCanvasChanged(self,visible):
+        if visible:
+            self.setCurrCanvas(self.sender())
+
+    def setCurrCanvas(self, canvas):
+        self.__currCanvas = canvas
+        self.__currCanvas.show()
+        self.__currCanvas.raise_()
+        self.__currCanvas.setFocus()
+        self.__currTool.setTarget(self.__currCanvas)
+
+    def closeEvent(self, event):
+        allSaved = True
+        for canvas in self.__canvases:
+            if not canvas.isSaved:
+                allSaved = False
+                break
+
+        if not allSaved:
+            button = QMessageBox.warning(self,
+                                         "Warning",
+                                         "There are files that have been modified but not saved,"
+                                         "want to save now?",
+                                         QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
+
+            # cancel
+            if button == QMessageBox.Cancel:
+                event.ignore()
+            # no
+            if button == QMessageBox.No:
+                event.accept()
+
+            # yes
+            if button == QMessageBox.Yes:
+                for canvas in self.__canvases:
+                    if not canvas.isSaved:
+                        canvas.save()

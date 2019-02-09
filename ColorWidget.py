@@ -70,6 +70,10 @@ class ColorWidget(QWidget, Ui_ColorWidget):
                               pos.x() / self.__rectWidth * 255,
                               (1 - pos.y() / self.__rectHeight) * 255)
 
+    def calculateCoordFromHsv(self, saturation, value):
+        return QPoint(saturation / 100 * self.__rectWidth,
+                      (1 - value / 100) * self.__rectHeight)
+
     # change the spin box
     def setSpinBox(self, color):
         self.hSpinBox.setValue(color.hue())
@@ -98,6 +102,7 @@ class ColorWidget(QWidget, Ui_ColorWidget):
         self.colorChangedSignal.emit(self.__selectedColor)
         self.setColorRectImage()
         self.colorRect.update()
+        self.setSpinBox(self.__selectedColor)
 
 
 class ColorDockWidget(QDockWidget):

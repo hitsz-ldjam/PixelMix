@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'ColorWidget.ui',
 # licensing of 'ColorWidget.ui' applies.
 #
-# Created: Tue Jan 22 13:04:18 2019
+# Created: Sat Feb  9 18:17:47 2019
 #      by: pyside2-uic  running on PySide2 5.12.0
 #
 # WARNING! All changes made in this file will be lost!
