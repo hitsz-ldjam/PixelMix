@@ -13,6 +13,10 @@ class ColorWidget(QWidget, Ui_ColorWidget):
         self.colorRect.installEventFilter(self)
         self.colorRect.setMouseTracking(True)
 
+        self.defaultSize = QSize(400, 250)
+        self.resize(self.defaultSize)
+        self.setMinimumSize(self.defaultSize)
+
         self.__hue = 0
         self.__rectWidth = self.colorRect.width()
         self.__rectHeight = self.colorRect.height()
@@ -103,6 +107,9 @@ class ColorWidget(QWidget, Ui_ColorWidget):
         self.setColorRectImage()
         self.colorRect.update()
         self.setSpinBox(self.__selectedColor)
+
+    def sizeHint(self):
+        return self.defaultSize
 
 
 class ColorDockWidget(QDockWidget):

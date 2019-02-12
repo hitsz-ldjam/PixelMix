@@ -3,16 +3,17 @@ from PySide2.QtWidgets import *
 from PySide2.QtGui import *
 
 
-class Canvas(QDockWidget):
+class Canvas(QWidget):
+    # todo change canvas
     def __init__(self, initImg, *, title, parent):
-        super().__init__(title, parent)
+        super().__init__(parent)
 
-        # when  dock widget tab is changed
-        # the visibility of the dock widget is changed
-        # change the current canvas according to this
-        self.visibilityChanged.connect(parent.currCanvasChanged)
+        self.setWindowTitle(title)
 
         # canvas states
+        # index in tab widget
+        self.index = -1
+        self.tabWidget = parent
         self.fileName = title
         self.filePath = ""
         self.isSaved = True
@@ -25,20 +26,15 @@ class Canvas(QDockWidget):
 
         self.__dockContent = QWidget()
 
-        self.frame = QFrame(self.__dockContent)
+        self.frame = QFrame(self)
         self.frame.setFrameShape(QFrame.Box)
         self.frame.setFrameShadow(QFrame.Plain)
         self.frame.installEventFilter(self)
-
-        self.__gridLayout = QGridLayout(self.__dockContent)
+        # todo change canvas
+        self.__gridLayout = QGridLayout(self)
         self.__gridLayout.setContentsMargins(2, 2, 2, 2)
         self.__gridLayout.addWidget(self.frame, 0, 0, 1, 1)
 
-        self.setWidget(self.__dockContent)
-        parent.addDockWidget(Qt.LeftDockWidgetArea, self)
-
-        # capture Canvas widget event
-        self.frame.installEventFilter(parent)
         self.frame.setMouseTracking(True)
 
         # change dock widget back ground color
@@ -51,9 +47,6 @@ class Canvas(QDockWidget):
         self.__painter = QPainter()
 
         self.__begin = False
-
-        # get focus event
-        self.setFocusPolicy(Qt.StrongFocus)
 
     @classmethod
     def new(cls, width, height, imgFormat=QImage.Format_RGB888, initColor=Qt.white, *, title, parent):
@@ -85,7 +78,7 @@ class Canvas(QDockWidget):
     def saveAs(self):
         filePath, _ = QFileDialog.getSaveFileName(self,
                                                   self.tr("Save"),
-                                                  self.filePath,
+                                                  self.filePath.rrpartition(".")[0] + "jpg",
                                                   "JPEG (*.jpg *.jpeg);;PNG (*.png);;All File Formats (*.*)",
                                                   "JPEG (*.jpg *.jpeg)")
         if filePath != "":
@@ -123,15 +116,12 @@ class Canvas(QDockWidget):
     def updated(self):
         if self.isSaved is True:
             self.isSaved = False
-            self.setWindowTitle(self.fileName + " *")
+            self.tabWidget.setTabText(self.index, self.fileName + " *")
 
     def saved(self):
         if self.isSaved is False:
             self.isSaved = True
-            self.setWindowTitle(self.fileName)
-
-    def focusInEvent(self, event):
-        self.parent().setCurrCanvas(self)
+            self.tabWidget.setTabText(self.index, self.fileName)
 
     def closeEvent(self, event):
         if not self.isSaved:
@@ -148,14 +138,14 @@ class Canvas(QDockWidget):
 
             # no
             if button == QMessageBox.No:
-                self.parent().removeCanvas(self)
+                self.tabWidget.removeCanvas(self)
                 event.accept()
 
             # yes
             if button == QMessageBox.Yes:
                 self.save()
-                self.parent().removeCanvas(self)
+                self.tabWidget.removeCanvas(self)
                 event.accept()
 
         else:
-            self.parent().removeCanvas(self)
+            self.tabWidget.removeCanvas(self)

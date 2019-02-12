@@ -11,6 +11,70 @@ from ColorWidget import ColorDockWidget
 
 # main window UI
 from Ui_MainWindow import Ui_MainWindow
+from Ui_CreateImageDialog import Ui_CreateImageDialog
+
+
+class CreateImageDialog(QDialog, Ui_CreateImageDialog):
+    def __init__(self, parent):
+        super().__init__(parent)
+        self.setupUi(self)
+        self.show()
+
+    @Slot(QAbstractButton)
+    def on_buttonBox_clicked(self, button):
+        if self.buttonBox.button(QDialogButtonBox.Ok) == button:
+            if len(self.fileNameLine.text()) == 0:
+                QMessageBox.warning(self,
+                                    self.tr("Warning"),
+                                    self.tr("File name should not be empty!"),
+                                    QMessageBox.Yes)
+            else:
+                self.accept()
+
+        if self.buttonBox.button(QDialogButtonBox.Cancel) == button:
+            self.reject()
+
+    @staticmethod
+    def getImageInfo(parent):
+        dialog = CreateImageDialog(parent)
+        if dialog.exec_() == QDialog.Accepted:
+            return dialog.fileNameLine.text(), dialog.widthBox.value(), dialog.heightBox.value()
+        else:
+            return "", -1, -1
+
+
+class TabWidget(QTabWidget):
+    def __init__(self, parent):
+        super().__init__(parent)
+        self.setTabsClosable(True)
+        self.setMovable(True)
+
+        # connect signal and slot
+        self.tabCloseRequested.connect(self.canvasCloseRequest)
+        self.currentChanged.connect(self.currentCanvasChanged)
+
+        self.canvases = []
+        self.currCanvas = None
+
+    def addCanvas(self, canvas):
+        canvas.index = self.addTab(canvas, canvas.windowTitle())
+        self.currCanvas = canvas
+        self.canvases.append(canvas)
+        self.setCurrentIndex(canvas.index)
+
+    def removeCanvas(self, canvas):
+        self.removeTab(canvas.index)
+        self.canvases.remove(canvas)
+        canvas.deleteLater()
+
+    def canvasCloseRequest(self, index):
+        for canvas in self.canvases:
+            if canvas.index == index:
+                canvas.close()
+
+    def currentCanvasChanged(self, index):
+        self.currCanvas = self.widget(index)
+        self.parent().setCurrCanvas(self.currCanvas)
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -22,8 +86,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # fetch preferences
         self.__preferences = Preferences("preferences.xml")
 
+        # todo change canvas
         # hide default central widget
+        # add tab widget to store canvas
         self.centralwidget.hide()
+        self.__tabWidget = TabWidget(self)
+        self.setCentralWidget(self.__tabWidget)
 
         # tracking mouse
         self.setMouseTracking(True)
@@ -33,16 +101,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         cp = QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
         self.move(qr.topLeft())
-
-        # create a canvas list
-        self.__canvases = []
-        # record current canvas
-        self.__currCanvas = None
-
-        # add a default canvas
-        canvas = Canvas.new(854, 480, title="Untitled", parent=self)
-        self.__canvases.append(canvas)
-        self.__currCanvas = self.__canvases[0]
 
         # create a painter
         self.__painter = QPainter()
@@ -54,15 +112,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # create a tool dock list
         self.__toolDocks = {}
 
-        # test (add some tool docks)
-        for i in range(1):
-            self.addToolDock(Qt.RightDockWidgetArea, "Tool_" + str(i + 1))
-
-        # add Color widget
-        colorDockWidget = ColorDockWidget(self)
-        colorDockWidget.dockContent.colorChangedSignal.connect(self.colorChanged)
-        self.addDockWidget(Qt.RightDockWidgetArea, colorDockWidget)
-        self.__toolDocks["colorDockWidget"] = colorDockWidget
+        # setup tool dock widgets
+        self.initToolDock()
 
         # create a tool list
         self.__tools = []
@@ -75,37 +126,34 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.__sideToolBtn = []
         self.initSideToolBar()
 
+        # todo change canvas
+        # add a default canvas
+        canvas = Canvas.new(600, 480, title="Untitled", parent=self.__tabWidget)
+        self.addCanvas(canvas)
+
         self.showMaximized()
 
     def addCanvas(self, canvas):
-        # tabify the new dock widget
-        if len(self.__canvases) is not 0:
-            self.tabifyDockWidget(self.__currCanvas, canvas)
-
-        self.__canvases.append(canvas)
+        # todo change canvas | addCanvas
+        canvas.frame.installEventFilter(self)
+        self.__tabWidget.addCanvas(canvas)
         # focus on new canvas
         self.setCurrCanvas(canvas)
 
     def removeCanvas(self, canvas):
-        # remove canvas
-        self.__canvases.remove(canvas)
-        self.removeDockWidget(canvas)
+        # todo change canvas
+        self.__tabWidget.removeCanvas(canvas.index)
 
-        # if current canvas is removed
-        # change the current canvas
-        if canvas is self.__currCanvas:
-            if len(self.__canvases) == 0:
-                self.__currCanvas = None
-            else:
-                self.setCurrCanvas(self.__canvases[0])
+    def setCurrCanvas(self, canvas):
+        if canvas is not None:
+            self.__currTool.setTarget(canvas)
 
-        canvas.deleteLater()
-
-    def addToolDock(self, area, title):
-        dock = QDockWidget(title)
-        self.addDockWidget(area, dock)
-        self.__toolDocks[title] = dock
-        return dock
+    def initToolDock(self):
+        # color tool
+        colorDockWidget = ColorDockWidget(self)
+        colorDockWidget.dockContent.colorChangedSignal.connect(self.colorChanged)
+        self.addDockWidget(Qt.RightDockWidgetArea, colorDockWidget)
+        self.__toolDocks["colorDockWidget"] = colorDockWidget
 
     def initTools(self):
         self.__tools.append(Tool.Brush(self.__painter))
@@ -113,7 +161,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.__tools.append(Tool.Rect(self.__painter))
         self.__tools.append(Tool.Ellipse(self.__painter))
         self.__currTool = self.__tools[0]
-        self.__currTool.setTarget(self.__currCanvas)
 
     def initSideToolBar(self):
         btnInfo = namedtuple("btnInfo", "type icon")
@@ -146,14 +193,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.__sideToolBtn[prevTool].setDown(False)
 
             self.__currTool = self.__tools[currTool]
-            self.__currTool.setTarget(self.__currCanvas)
+            self.__currTool.setTarget(self.__tabWidget.currCanvas)
 
     def eventFilter(self, watched, event):
-        if self.__currCanvas is None:
-            return False
-
-        if watched == self.__currCanvas.frame:
-            self.__currTool.process(self.__pen, event)
+        if self.__tabWidget.currCanvas is not None:
+            if watched == self.__tabWidget.currCanvas.frame:
+                self.__currTool.process(self.__pen, event)
 
         return False
 
@@ -170,22 +215,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             return
 
         title = path.rpartition("/")[2]
-        canvas = Canvas.open(path, title=title, parent=self)
+        canvas = Canvas.open(path, title=title, parent=self.__tabWidget)
 
         self.addCanvas(canvas)
 
     @Slot()
     def on_menuFileCreate_triggered(self):
-        # todo
-        print("Create")
+        fileName, width, height = CreateImageDialog.getImageInfo(self)
+        if width != -1:
+            self.addCanvas(Canvas.new(width, height, title=fileName, parent=self.__tabWidget))
 
     @Slot()
     def on_menuFileSave_triggered(self):
-        self.__currCanvas.save()
+        self.__tabWidget.currCanvas.save()
 
     @Slot()
     def on_menuFileSaveAs_triggered(self):
-        self.__currCanvas.saveAs()
+        self.__tabWidget.currCanvas.saveAs()
 
     @Slot()
     def on_menuFileQuit_triggered(self):
@@ -228,21 +274,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.__pen.setColor(color)
         self.__pen.setWidth(2)
 
-    @Slot()
-    def currCanvasChanged(self,visible):
-        if visible:
-            self.setCurrCanvas(self.sender())
-
-    def setCurrCanvas(self, canvas):
-        self.__currCanvas = canvas
-        self.__currCanvas.show()
-        self.__currCanvas.raise_()
-        self.__currCanvas.setFocus()
-        self.__currTool.setTarget(self.__currCanvas)
-
     def closeEvent(self, event):
         allSaved = True
-        for canvas in self.__canvases:
+        for canvas in self.__tabWidget.canvases:
             if not canvas.isSaved:
                 allSaved = False
                 break

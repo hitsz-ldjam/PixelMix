@@ -51,7 +51,6 @@ class Brush(ToolBase):
         # begin drawing
         if event.type() == QEvent.MouseButtonPress and event.button() == Qt.LeftButton:
             if not self.isDrawing:
-
                 self.lastPoint = event.pos()
                 self.isDrawing = True
         # end drawing
@@ -193,4 +192,36 @@ class Ellipse(ToolBase):
             self.endPoint = event.pos()
 
             self.painter.end()
+            self.canvas.update()
+
+
+class Eraser(ToolBase):
+    def __init__(self, painter, canvas=None):
+        super().__init__(painter, canvas)
+        self.type = ToolType.Brush
+        self.cursor = Qt.CrossCursor
+        self.lastPoint = QPoint()
+
+    def process(self, pen, event):
+        # begin drawing
+        if event.type() == QEvent.MouseButtonPress and event.button() == Qt.LeftButton:
+            if not self.isDrawing:
+                self.lastPoint = event.pos()
+                self.isDrawing = True
+        # end drawing
+        if event.type() == QEvent.MouseButtonRelease and event.button() == Qt.LeftButton:
+            self.isDrawing = False
+
+        # while drawing
+        if event.type() == QEvent.MouseMove and self.isDrawing:
+            self.painter.begin(self.canvas.getImage())
+            oldColor = pen.color()
+            pen.setColor(Qt.white)
+            self.painter.setPen(pen)
+
+            self.painter.drawLine(self.lastPoint, event.pos())
+            self.lastPoint = event.pos()
+
+            self.painter.end()
+            pen.setColor(oldColor)
             self.canvas.update()

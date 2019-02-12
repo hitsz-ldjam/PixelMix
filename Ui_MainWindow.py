@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'MainWindow.ui',
 # licensing of 'MainWindow.ui' applies.
 #
-# Created: Sat Feb  9 14:14:21 2019
+# Created: Tue Feb 12 10:56:56 2019
 #      by: pyside2-uic  running on PySide2 5.12.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -31,7 +31,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1197, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1280, 26))
         self.menubar.setStyleSheet("")
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
