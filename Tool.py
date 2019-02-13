@@ -1,16 +1,15 @@
 from enum import Enum, unique
 from PySide2.QtCore import *
-from PySide2.QtWidgets import *
-from PySide2.QtGui import *
 
 
 @unique
 class ToolType(Enum):
     Null = 0
     Brush = 1
-    StraightLine = 2
-    Rect = 3
-    Ellipse = 4
+    Eraser = 2
+    StraightLine = 3
+    Rect = 4
+    Ellipse = 5
 
 
 class ToolBase(object):
@@ -198,7 +197,7 @@ class Ellipse(ToolBase):
 class Eraser(ToolBase):
     def __init__(self, painter, canvas=None):
         super().__init__(painter, canvas)
-        self.type = ToolType.Brush
+        self.type = ToolType.Eraser
         self.cursor = Qt.CrossCursor
         self.lastPoint = QPoint()
 

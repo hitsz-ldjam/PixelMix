@@ -19,6 +19,7 @@ class CreateImageDialog(QDialog, Ui_CreateImageDialog):
     def __init__(self, parent):
         super().__init__(parent)
         self.setupUi(self)
+        self.setWindowFlag(Qt.WindowContextHelpButtonHint, on=False)
         self.show()
 
     @Slot(QAbstractButton)
@@ -85,7 +86,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # fetch preferences
         self.__preferences = Preferences("preferences.xml")
 
-        # todo change canvas
         # hide default central widget
         # add tab widget to store canvas
         self.centralwidget.hide()
@@ -118,29 +118,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.__tools = []
         # record current tool
         self.__currTool = None
-
         self.initTools()
 
         # add paint tools to side bar
         self.__sideToolBtn = []
         self.initSideToolBar()
 
-        # todo change canvas
         # add a default canvas
-        canvas = Canvas.new(600, 480, title="Untitled", parent=self.__tabWidget)
-        self.addCanvas(canvas)
+        # canvas = Canvas.new(600, 480, title="Untitled", parent=self.__tabWidget)
+        # self.addCanvas(canvas)
 
         self.showMaximized()
 
     def addCanvas(self, canvas):
-        # todo change canvas | addCanvas
         canvas.frame.installEventFilter(self)
         self.__tabWidget.addCanvas(canvas)
         # focus on new canvas
         self.setCurrCanvas(canvas)
 
     def removeCanvas(self, canvas):
-        # todo change canvas
         self.__tabWidget.removeCanvas(canvas.index)
 
     def setCurrCanvas(self, canvas):
@@ -148,12 +144,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.__currTool.setTarget(canvas)
 
     def initToolDock(self):
-        # navigator tool
+        # navigator
         navigatorDockWidget = NavigatorDockWidget(self)
         self.addDockWidget(Qt.RightDockWidgetArea, navigatorDockWidget)
         self.__toolDocks["navigatorDockWidget"] = navigatorDockWidget
 
-        # color tool
+        # palette
         colorDockWidget = ColorDockWidget(self)
         colorDockWidget.dockContent.colorChangedSignal.connect(self.colorChanged)
         self.addDockWidget(Qt.RightDockWidgetArea, colorDockWidget)
@@ -161,6 +157,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def initTools(self):
         self.__tools.append(Tool.Brush(self.__painter))
+        self.__tools.append(Tool.Eraser(self.__painter))
         self.__tools.append(Tool.StraightLine(self.__painter))
         self.__tools.append(Tool.Rect(self.__painter))
         self.__tools.append(Tool.Ellipse(self.__painter))
@@ -169,6 +166,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def initSideToolBar(self):
         btnInfo = namedtuple("btnInfo", "type icon")
         toolBtnInfo = [btnInfo(Tool.ToolType.Brush, "resources/BrushTool.svg"),
+                       btnInfo(Tool.ToolType.Eraser, "resources/EraserTool.svg"),
                        btnInfo(Tool.ToolType.Null, ""),
                        btnInfo(Tool.ToolType.StraightLine, "resources/LineTool.svg"),
                        btnInfo(Tool.ToolType.Rect, "resources/RectangleTool.svg"),
@@ -215,7 +213,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         options |= QFileDialog.Options()
         path, _ = QFileDialog.getOpenFileName(self,
                                               caption="Open File",
-                                              dir="C:\\",
                                               filter="JPEG (*.jpg *.jpeg);;PNG (*.png);;All File Formats (*.*)",
                                               options=options)
 
@@ -271,11 +268,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_menuHelpAbout_triggered(self):
         dialog = QDialog(self)
 
-        # todo
-        _credits = QLabel("Icons made by Flaticon", dialog)
+        # todo finish about
+
+        _credits = """<style type="text/css">a {{font-weight: bold;}}</style>
+<div>Credit</div>
+<div>
+    <p>Brush icon is designed by <a href="{flaticon}/authors/vectorgraphit">Vectorgraphit</a> from <a href="{flaticon}/">Flaticon</a>.</p>
+    <p>Eraser icon is designed by <a href="{freepik}/">Freepik</a>.</p>
+    <p>Line icon is designed by <a href="{flaticon}/authors/smashicons">Smashicons</a> from <a href="{flaticon}/">Flaticon</a>.</p>
+    <p>Rectangle icon is designed by <a href="{flaticon}/authors/dario-ferrando">Dario Ferrando</a> from <a href="{flaticon}/">Flaticon</a>.</p>
+    <p>Ellipse icon is designed by <a href="{freepik}/">Freepik</a>.</p>
+</div>""".format(flaticon="https://www.flaticon.com", freepik="https://www.freepik.com")
+        QLabel(_credits, dialog)
 
         dialog.setWindowTitle("About")
         dialog.setWindowModality(Qt.ApplicationModal)
+        dialog.setWindowFlag(Qt.WindowContextHelpButtonHint, on=False)
+        dialog.resize(600, 480)
         dialog.show()
         dialog.exec_()
 
@@ -284,6 +293,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.__pen.setColor(color)
         self.__pen.setWidth(2)
 
+    @Slot()
     def closeEvent(self, event):
         allSaved = True
         for canvas in self.__tabWidget.canvases:
@@ -293,9 +303,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         if not allSaved:
             button = QMessageBox.warning(self,
-                                         "Warning",
-                                         "There are files that have been modified but not saved,"
-                                         "want to save now?",
+                                         "Save changes?",
+                                         "There are files that have been modified, save changes?",
                                          QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
 
             # cancel
@@ -304,7 +313,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             # no
             if button == QMessageBox.No:
                 event.accept()
-
             # yes
             if button == QMessageBox.Yes:
                 for canvas in self.__canvases:

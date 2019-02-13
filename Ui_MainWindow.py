@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'MainWindow.ui',
 # licensing of 'MainWindow.ui' applies.
 #
-# Created: Tue Feb 12 20:08:32 2019
+# Created: Wed Feb 13 16:22:52 2019
 #      by: pyside2-uic  running on PySide2 5.12.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -91,8 +91,8 @@ class Ui_MainWindow(object):
         self.menuFile.setTitle(QtWidgets.QApplication.translate("MainWindow", "File", None, -1))
         self.menuEdit.setTitle(QtWidgets.QApplication.translate("MainWindow", "Edit", None, -1))
         self.menuHelp.setTitle(QtWidgets.QApplication.translate("MainWindow", "Help", None, -1))
-        self.mainToolBar.setWindowTitle(QtWidgets.QApplication.translate("MainWindow", "toolBar", None, -1))
-        self.sideToolBar.setWindowTitle(QtWidgets.QApplication.translate("MainWindow", "toolBar", None, -1))
+        self.mainToolBar.setWindowTitle(QtWidgets.QApplication.translate("MainWindow", "main tool bar", None, -1))
+        self.sideToolBar.setWindowTitle(QtWidgets.QApplication.translate("MainWindow", "side tool bar", None, -1))
         self.menuFileCreate.setText(QtWidgets.QApplication.translate("MainWindow", "New", None, -1))
         self.menuFileCreate.setToolTip(QtWidgets.QApplication.translate("MainWindow", "New", None, -1))
         self.menuFileCreate.setShortcut(QtWidgets.QApplication.translate("MainWindow", "Ctrl+N", None, -1))

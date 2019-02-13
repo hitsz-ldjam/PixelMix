@@ -43,4 +43,4 @@ class NavigatorDockWidget(QDockWidget):
         super().__init__(parent)
         self.dockContent = NavigatorWidget(self)
         self.setWidget(self.dockContent)
-        self.setWindowTitle("Navigator tool")
+        self.setWindowTitle("Navigator")

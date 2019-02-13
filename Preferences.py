@@ -12,6 +12,10 @@ class Preferences:
     def get(self, preferenceName):
         return self.__tree.getroot().findall(preferenceName)[0].text
 
+    @staticmethod
+    def getS(filename, preferenceName):
+        return parse(filename).getroot().findall(preferenceName)[0].text
+
     def set(self, preferenceName, value):
         self.__tree.getroot().findall(preferenceName)[0].text = str(value)
 

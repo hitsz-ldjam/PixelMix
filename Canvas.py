@@ -2,6 +2,8 @@ from PySide2.QtCore import *
 from PySide2.QtWidgets import *
 from PySide2.QtGui import *
 
+from Preferences import Preferences
+
 
 class Canvas(QWidget):
     def __init__(self, initImg, *, title, parent):
@@ -28,7 +30,6 @@ class Canvas(QWidget):
         self.frame.installEventFilter(self)
         self.frame.setMouseTracking(True)
 
-        # todo change canvas
         self.scrollArea = QScrollArea(self)
         self.frame.resize(self.image.size())
         self.scrollArea.setWidget(self.frame)
@@ -36,7 +37,6 @@ class Canvas(QWidget):
         self.__gridLayout = QGridLayout(self)
         self.__gridLayout.setContentsMargins(2, 2, 2, 2)
         self.__gridLayout.addWidget(self.scrollArea, 0, 0, 1, 1)
-        # todo change canvas
 
         # change dock widget back ground color
         __defaultWindowBackColor = QColor(150, 150, 150)
@@ -63,13 +63,17 @@ class Canvas(QWidget):
         return temp
 
     def save(self):
+        # todo fix this shit
+        options = QFileDialog.DontUseNativeDialog if Preferences.getS("preferences.xml",
+                                                                      "UseNativeDialog") == "False" else 0
         if self.filePath == "":
             # if the file is not opened from disk
             self.filePath, _ = QFileDialog.getSaveFileName(self,
                                                            self.tr("Save"),
                                                            ".\\" + self.fileName + ".jpg",
                                                            "JPEG (*.jpg *.jpeg);;PNG (*.png);;All File Formats (*.*)",
-                                                           "JPEG (*.jpg *.jpeg)")
+                                                           "JPEG (*.jpg *.jpeg)",
+                                                           options)
         # if canceled
         if self.filePath != "":
             imgFormat = self.filePath.rpartition(".")[2].upper()
@@ -77,11 +81,15 @@ class Canvas(QWidget):
             self.saved()
 
     def saveAs(self):
+        # todo fix this shit
+        options = QFileDialog.DontUseNativeDialog if Preferences.getS("preferences.xml",
+                                                                      "UseNativeDialog") == "False" else 0
         filePath, _ = QFileDialog.getSaveFileName(self,
                                                   self.tr("Save"),
                                                   self.filePath.rpartition(".")[0] + "jpg",
                                                   "JPEG (*.jpg *.jpeg);;PNG (*.png);;All File Formats (*.*)",
-                                                  "JPEG (*.jpg *.jpeg)")
+                                                  "JPEG (*.jpg *.jpeg)",
+                                                  options)
         if filePath != "":
             imgFormat = filePath.rpartition(".")[2].upper()
             self.image.save(filePath, imgFormat)
@@ -133,10 +141,8 @@ class Canvas(QWidget):
     def closeEvent(self, event):
         if not self.isSaved:
             button = QMessageBox.warning(self.parent(),
-                                         self.tr("Warning"),
-                                         "[ " + self.fileName + " ]" +
-                                         self.tr(" has been modified but not saved,"
-                                                 "want to save now?"),
+                                         "Save changes?",
+                                         self.fileName + " has been modified, save changes?",
                                          QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
 
             # cancel

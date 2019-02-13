@@ -190,4 +190,4 @@ class ColorDockWidget(QDockWidget):
         super().__init__(parent)
         self.dockContent = ColorWidget(self)
         self.setWidget(self.dockContent)
-        self.setWindowTitle("Color tool")
+        self.setWindowTitle("Palette")
