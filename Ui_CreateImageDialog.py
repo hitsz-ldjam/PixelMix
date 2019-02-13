@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'CreateImageDialog.ui',
 # licensing of 'CreateImageDialog.ui' applies.
 #
-# Created: Tue Feb 12 15:18:07 2019
+# Created: Tue Feb 12 19:19:07 2019
 #      by: pyside2-uic  running on PySide2 5.12.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -58,7 +58,7 @@ class Ui_CreateImageDialog(object):
         self.horizontalLayout_2.addWidget(self.label_2)
         self.widthBox = QtWidgets.QSpinBox(CreateImageDialog)
         self.widthBox.setMinimum(1)
-        self.widthBox.setMaximum(1024)
+        self.widthBox.setMaximum(16777215)
         self.widthBox.setObjectName("widthBox")
         self.horizontalLayout_2.addWidget(self.widthBox)
         self.horizontalLayout_4.addLayout(self.horizontalLayout_2)
@@ -74,7 +74,7 @@ class Ui_CreateImageDialog(object):
         self.horizontalLayout_3.addWidget(self.label_3)
         self.heightBox = QtWidgets.QSpinBox(CreateImageDialog)
         self.heightBox.setMinimum(1)
-        self.heightBox.setMaximum(1024)
+        self.heightBox.setMaximum(16777215)
         self.heightBox.setObjectName("heightBox")
         self.horizontalLayout_3.addWidget(self.heightBox)
         self.horizontalLayout_4.addLayout(self.horizontalLayout_3)

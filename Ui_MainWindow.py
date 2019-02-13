@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'MainWindow.ui',
 # licensing of 'MainWindow.ui' applies.
 #
-# Created: Tue Feb 12 10:56:56 2019
+# Created: Tue Feb 12 20:08:32 2019
 #      by: pyside2-uic  running on PySide2 5.12.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -27,7 +27,7 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.centralwidget.sizePolicy().hasHeightForWidth())
         self.centralwidget.setSizePolicy(sizePolicy)
-        self.centralwidget.setStyleSheet("background-color: #282828;")
+        self.centralwidget.setStyleSheet("")
         self.centralwidget.setObjectName("centralwidget")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -42,17 +42,17 @@ class Ui_MainWindow(object):
         self.menuHelp.setObjectName("menuHelp")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setStyleSheet("background-color: #535353;")
+        self.statusbar.setStyleSheet("")
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
         self.mainToolBar = QtWidgets.QToolBar(MainWindow)
         self.mainToolBar.setMinimumSize(QtCore.QSize(30, 30))
-        self.mainToolBar.setStyleSheet("background-color: #535353;")
+        self.mainToolBar.setStyleSheet("")
         self.mainToolBar.setObjectName("mainToolBar")
         MainWindow.addToolBar(QtCore.Qt.TopToolBarArea, self.mainToolBar)
         self.sideToolBar = QtWidgets.QToolBar(MainWindow)
         self.sideToolBar.setMinimumSize(QtCore.QSize(30, 30))
-        self.sideToolBar.setStyleSheet("background-color: #535353;")
+        self.sideToolBar.setStyleSheet("")
         self.sideToolBar.setObjectName("sideToolBar")
         MainWindow.addToolBar(QtCore.Qt.LeftToolBarArea, self.sideToolBar)
         self.menuFileCreate = QtWidgets.QAction(MainWindow)
