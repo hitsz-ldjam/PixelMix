@@ -4,6 +4,7 @@ from PySide2.QtGui import *
 
 
 class Canvas(QWidget):
+    # todo change canvas
     def __init__(self, initImg, *, title, parent):
         super().__init__(parent)
 
@@ -11,6 +12,7 @@ class Canvas(QWidget):
 
         # canvas states
         # index in tab widget
+        self.index = -1
         self.tabWidget = parent
         self.fileName = title
         self.filePath = ""
@@ -24,19 +26,16 @@ class Canvas(QWidget):
 
         self.__dockContent = QWidget()
 
-        self.frame = QLabel(self)
+        self.frame = QFrame(self)
+        self.frame.setFrameShape(QFrame.Box)
+        self.frame.setFrameShadow(QFrame.Plain)
         self.frame.installEventFilter(self)
-        self.frame.setMouseTracking(True)
-
         # todo change canvas
-        self.scrollArea = QScrollArea(self)
-        self.frame.resize(self.image.size())
-        self.scrollArea.setWidget(self.frame)
-        self.scrollArea.setAlignment(Qt.AlignCenter)
         self.__gridLayout = QGridLayout(self)
         self.__gridLayout.setContentsMargins(2, 2, 2, 2)
-        self.__gridLayout.addWidget(self.scrollArea, 0, 0, 1, 1)
-        # todo change canvas
+        self.__gridLayout.addWidget(self.frame, 0, 0, 1, 1)
+
+        self.frame.setMouseTracking(True)
 
         # change dock widget back ground color
         __defaultWindowBackColor = QColor(150, 150, 150)
@@ -98,11 +97,6 @@ class Canvas(QWidget):
                 self.__painter.drawImage(1, 1, self.image)
 
             self.__painter.end()
-            # if self.__begin:
-            #     self.frame.setPixmap(QPixmap(self.tempImage))
-            # else:
-            #     self.frame.setPixmap(QPixmap(self.image))
-
         return False
 
     def beginDblBuffer(self):
@@ -122,12 +116,12 @@ class Canvas(QWidget):
     def updated(self):
         if self.isSaved is True:
             self.isSaved = False
-            self.tabWidget.setTabText(self.tabWidget.indexOf(self), self.fileName + " *")
+            self.tabWidget.setTabText(self.index, self.fileName + " *")
 
     def saved(self):
         if self.isSaved is False:
             self.isSaved = True
-            self.tabWidget.setTabText(self.tabWidget.indexOf(self), self.fileName)
+            self.tabWidget.setTabText(self.index, self.fileName)
 
     def closeEvent(self, event):
         if not self.isSaved:
@@ -155,7 +149,3 @@ class Canvas(QWidget):
 
         else:
             self.tabWidget.removeCanvas(self)
-
-    def update(self):
-        self.frame.repaint()
-        super().update()

@@ -8,7 +8,6 @@ import Tool
 from Preferences import Preferences
 from Canvas import Canvas
 from ColorWidget import ColorDockWidget
-from NavigatorWidget import NavigatorDockWidget
 
 # main window UI
 from Ui_MainWindow import Ui_MainWindow
@@ -58,18 +57,20 @@ class TabWidget(QTabWidget):
         self.currCanvas = None
 
     def addCanvas(self, canvas):
-        self.addTab(canvas, canvas.windowTitle())
+        canvas.index = self.addTab(canvas, canvas.windowTitle())
         self.currCanvas = canvas
         self.canvases.append(canvas)
-        self.setCurrentIndex(self.indexOf(canvas))
+        self.setCurrentIndex(canvas.index)
 
     def removeCanvas(self, canvas):
-        self.removeTab(self.indexOf(canvas))
+        self.removeTab(canvas.index)
         self.canvases.remove(canvas)
         canvas.deleteLater()
 
     def canvasCloseRequest(self, index):
-        self.widget(index).close()
+        for canvas in self.canvases:
+            if canvas.index == index:
+                canvas.close()
 
     def currentCanvasChanged(self, index):
         self.currCanvas = self.widget(index)
@@ -148,11 +149,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.__currTool.setTarget(canvas)
 
     def initToolDock(self):
-        # navigator tool
-        navigatorDockWidget = NavigatorDockWidget(self)
-        self.addDockWidget(Qt.RightDockWidgetArea, navigatorDockWidget)
-        self.__toolDocks["navigatorDockWidget"] = navigatorDockWidget
-
         # color tool
         colorDockWidget = ColorDockWidget(self)
         colorDockWidget.dockContent.colorChangedSignal.connect(self.colorChanged)
@@ -203,9 +199,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if self.__tabWidget.currCanvas is not None:
             if watched == self.__tabWidget.currCanvas.frame:
                 self.__currTool.process(self.__pen, event)
-                self.__toolDocks["navigatorDockWidget"].dockContent.updateImage(self.__tabWidget.currCanvas)
-        else:
-            self.__toolDocks["navigatorDockWidget"].dockContent.noImage()
 
         return False
 
