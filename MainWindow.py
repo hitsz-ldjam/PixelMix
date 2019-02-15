@@ -5,76 +5,17 @@ from PySide2.QtWidgets import *
 from PySide2.QtGui import *
 
 import Tool
-from Preferences import Preferences
 from Canvas import Canvas
+from Preferences import Preferences
+
 from ColorWidget import ColorDockWidget
 from NavigatorWidget import NavigatorDockWidget
+from TabWidget import TabWidget
 
-# main window UI
+from BrightnessContrastDialog import BrightnessContrastDialog
+from CreateImageDialog import CreateImageDialog
+
 from Ui_MainWindow import Ui_MainWindow
-from Ui_CreateImageDialog import Ui_CreateImageDialog
-
-
-class CreateImageDialog(QDialog, Ui_CreateImageDialog):
-    def __init__(self, parent):
-        super().__init__(parent)
-        self.setupUi(self)
-        self.setWindowFlag(Qt.WindowContextHelpButtonHint, on=False)
-        self.show()
-
-    @Slot(QAbstractButton)
-    def on_buttonBox_clicked(self, button):
-        if self.buttonBox.button(QDialogButtonBox.Ok) == button:
-            if len(self.fileNameLine.text()) == 0:
-                QMessageBox.warning(self,
-                                    self.tr("Warning"),
-                                    self.tr("File name should not be empty!"),
-                                    QMessageBox.Yes)
-            else:
-                self.accept()
-
-        if self.buttonBox.button(QDialogButtonBox.Cancel) == button:
-            self.reject()
-
-    @staticmethod
-    def getImageInfo(parent):
-        dialog = CreateImageDialog(parent)
-        if dialog.exec_() == QDialog.Accepted:
-            return dialog.fileNameLine.text(), dialog.widthBox.value(), dialog.heightBox.value()
-        else:
-            return "", -1, -1
-
-
-class TabWidget(QTabWidget):
-    def __init__(self, parent):
-        super().__init__(parent)
-        self.setTabsClosable(True)
-        self.setMovable(True)
-
-        # connect signal and slot
-        self.tabCloseRequested.connect(self.canvasCloseRequest)
-        self.currentChanged.connect(self.currentCanvasChanged)
-
-        self.canvases = []
-        self.currCanvas = None
-
-    def addCanvas(self, canvas):
-        self.addTab(canvas, canvas.windowTitle())
-        self.currCanvas = canvas
-        self.canvases.append(canvas)
-        self.setCurrentIndex(self.indexOf(canvas))
-
-    def removeCanvas(self, canvas):
-        self.removeTab(self.indexOf(canvas))
-        self.canvases.remove(canvas)
-        canvas.deleteLater()
-
-    def canvasCloseRequest(self, index):
-        self.widget(index).close()
-
-    def currentCanvasChanged(self, index):
-        self.currCanvas = self.widget(index)
-        self.parent().setCurrCanvas(self.currCanvas)
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -125,8 +66,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.initSideToolBar()
 
         # add a default canvas
-        # canvas = Canvas.new(600, 480, title="Untitled", parent=self.__tabWidget)
-        # self.addCanvas(canvas)
+        canvas = Canvas.new(600, 480, title="Untitled", parent=self.__tabWidget)
+        self.addCanvas(canvas)
 
         self.showMaximized()
 
@@ -263,6 +204,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def updateUseNativeDialog(self, state):
         self.__preferences.set("UseNativeDialog", state == Qt.Checked)
         self.__preferences.saveAll()
+
+    @Slot()
+    def on_menuEffectBrightnessContrast_triggered(self):
+        dialog = BrightnessContrastDialog(self, self.__tabWidget.currCanvas)
+        dialog.exec_()
 
     @Slot()
     def on_menuHelpAbout_triggered(self):

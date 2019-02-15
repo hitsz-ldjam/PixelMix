@@ -84,8 +84,21 @@
     </property>
     <addaction name="menuHelpAbout"/>
    </widget>
+   <widget class="QMenu" name="menuEffects">
+    <property name="title">
+     <string>Effect</string>
+    </property>
+    <widget class="QMenu" name="menuColor_Correction">
+     <property name="title">
+      <string>Color Correction</string>
+     </property>
+     <addaction name="menuEffectBrightnessContrast"/>
+    </widget>
+    <addaction name="menuColor_Correction"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
+   <addaction name="menuEffects"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar">
@@ -196,6 +209,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Alt+;</string>
+   </property>
+  </action>
+  <action name="menuEffectBrightnessContrast">
+   <property name="text">
+    <string>Brightness &amp; Contrast</string>
    </property>
   </action>
  </widget>

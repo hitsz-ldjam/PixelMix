@@ -2,6 +2,8 @@ from PySide2.QtCore import *
 from PySide2.QtWidgets import *
 from PySide2.QtGui import *
 
+import numpy as np
+
 from Preferences import Preferences
 
 
@@ -20,9 +22,18 @@ class Canvas(QWidget):
 
         # image used to present
         self.image = initImg
+        # todo add different format support
+        if self.image.format() != QImage.Format_RGB32:
+            self.image = self.image.convertToFormat(QImage.Format_RGB32)
+        self.mat = np.ndarray(shape=(self.image.height(), self.image.width(), self.image.depth()//8),
+                              dtype=np.uint8,
+                              buffer=self.image.bits())
+        # invertible
+        # self.__realMat = self.mat.astype(np.uint32)
 
         # double buffer
         self.tempImage = QImage(self.image)
+        self.tempMat = np.ndarray(shape=self.mat.shape, dtype=np.uint8, buffer=self.tempImage.bits())
 
         self.__dockContent = QWidget()
 
@@ -50,7 +61,7 @@ class Canvas(QWidget):
         self.__begin = False
 
     @classmethod
-    def new(cls, width, height, imgFormat=QImage.Format_RGB888, initColor=Qt.white, *, title, parent):
+    def new(cls, width, height, imgFormat=QImage.Format_RGB32, initColor=Qt.white, *, title, parent):
         image = QImage(width, height, imgFormat)
         image.fill(initColor)
         return cls(image, title=title, parent=parent)
@@ -58,6 +69,9 @@ class Canvas(QWidget):
     @classmethod
     def open(cls, path, *, title, parent):
         image = QImage(path)
+        # todo add different format support
+        if image.format() != QImage.Format_RGB32:
+            image = image.convertToFormat(QImage.Format_RGB32)
         temp = cls(image, title=title, parent=parent)
         temp.filePath = path
         return temp
@@ -102,6 +116,7 @@ class Canvas(QWidget):
             if self.__begin:
                 self.__painter.drawImage(1, 1, self.tempImage)
                 self.tempImage = self.image.copy()
+                self.tempMat = np.ndarray(shape=self.mat.shape, dtype=np.uint8, buffer=self.tempImage.bits())
             else:
                 self.__painter.drawImage(1, 1, self.image)
 

@@ -26,10 +26,10 @@ class NavigatorWidget(QWidget):
         self.setMinimumSize(self.defaultSize)
 
     def updateImage(self, canvas):
-        tempPix = QPixmap(canvas.image).scaled(self.sizeHint(), Qt.KeepAspectRatio);
+        tempPix = QPixmap(canvas.image).scaled(self.sizeHint(), Qt.KeepAspectRatio)
 
-        self.label.setAlignment(Qt.AlignCenter);
-        self.label.setPixmap(tempPix);
+        self.label.setAlignment(Qt.AlignCenter)
+        self.label.setPixmap(tempPix)
 
     def noImage(self):
         self.label.setText("No image")
