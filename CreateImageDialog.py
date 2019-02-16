@@ -14,12 +14,12 @@ class CreateImageDialog(QDialog, Ui_CreateImageDialog):
     @Slot(QAbstractButton)
     def on_buttonBox_clicked(self, button):
         if self.buttonBox.button(QDialogButtonBox.Ok) == button:
-            if len(self.fileNameLine.text()) == 0:
-                QMessageBox.warning(self,
-                                    self.tr("Warning"),
-                                    self.tr("File name is empty!"),
-                                    QMessageBox.Yes)
-            else:
+            # if len(self.fileNameLine.text()) == 0:
+            #     QMessageBox.warning(self,
+            #                         self.tr("Warning"),
+            #                         self.tr("File name is empty!"),
+            #                         QMessageBox.Yes)
+            # else:
                 self.accept()
 
         if self.buttonBox.button(QDialogButtonBox.Cancel) == button:
