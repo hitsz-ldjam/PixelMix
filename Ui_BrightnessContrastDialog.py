@@ -13,7 +13,7 @@ from PySide2 import QtCore, QtGui, QtWidgets
 class Ui_BrightnessContrastDialog(object):
     def setupUi(self, BrightnessContrastDialog):
         BrightnessContrastDialog.setObjectName("BrightnessContrastDialog")
-        BrightnessContrastDialog.setWindowModality(QtCore.Qt.NonModal)
+        BrightnessContrastDialog.setWindowModality(QtCore.Qt.ApplicationModal)
         BrightnessContrastDialog.resize(500, 170)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)

@@ -65,6 +65,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.__sideToolBtn = []
         self.initSideToolBar()
 
+        # todo
+        self.initMainToolBar()
+
         # add a default canvas
         canvas = Canvas.new(600, 480, title="Untitled", parent=self.__tabWidget)
         self.addCanvas(canvas)
@@ -125,6 +128,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.__sideToolBtn.append(btn)
 
         self.__sideToolBtn[0].setDown(True)
+
+    def initMainToolBar(self):
+        # todo
+        slider = QSlider(Qt.Horizontal, self)
+        slider.setMaximumWidth(300)
+        self.mainToolBar.addWidget(slider)
 
     def switchTool(self):
         # magic
@@ -208,6 +217,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @Slot()
     def on_menuEffectBrightnessContrast_triggered(self):
         dialog = BrightnessContrastDialog(self, self.__tabWidget.currCanvas)
+        dialog.setModal(True)
         dialog.exec_()
 
     @Slot()
@@ -238,7 +248,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @Slot()
     def colorChanged(self, color):
         self.__pen.setColor(color)
-        self.__pen.setWidth(2)
 
     @Slot()
     def closeEvent(self, event):

@@ -15,9 +15,6 @@ class NavigatorWidget(QWidget):
         self.label = QLabel(self)
         self.label.setObjectName("label")
         self.label.setAlignment(Qt.AlignCenter)
-        self.label.setFrameShape(QFrame.StyledPanel)
-        self.label.setFrameShadow(QFrame.Raised)
-        self.label.setLineWidth(2)
 
         self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
 

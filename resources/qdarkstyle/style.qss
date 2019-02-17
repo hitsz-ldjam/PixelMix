@@ -962,6 +962,10 @@ QToolButton:checked {
     border: 1px solid #19232D;
 }
 
+QToolButton:pressed {
+	background-color: #148CD2;
+}
+
 QToolButton:disabled {
     border: 1px solid #32414B;
 }
@@ -1477,7 +1481,7 @@ QDockWidget {
 }
 
 QDockWidget::title {
-    padding: 6px;   /* better size for title bar */
+    padding: 1spx;   /* better size for title bar */
     border: none;
     background-color: #32414B;
 }
@@ -1797,7 +1801,7 @@ QToolBox QScrollArea QWidget QWidget {
 
 QFrame {
     border-radius: 4px;
-    border: 1px solid #32414B;
+    border: 0px solid #32414B;
 }
 
 QFrame[frameShape="0"] {
@@ -1894,5 +1898,4 @@ QAbstractView:selected {
     background: #1464A0;
     color: #32414B;
 }
-
 

@@ -213,7 +213,7 @@
   </action>
   <action name="menuEffectBrightnessContrast">
    <property name="text">
-    <string>Brightness &amp; Contrast</string>
+    <string>Brightness &amp;& Contrast</string>
    </property>
   </action>
  </widget>

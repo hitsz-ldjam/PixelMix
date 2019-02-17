@@ -120,5 +120,5 @@ class Ui_MainWindow(object):
         self.menuHelpAbout.setText(QtWidgets.QApplication.translate("MainWindow", "About", None, -1))
         self.menuEditPreferences.setText(QtWidgets.QApplication.translate("MainWindow", "Preferences", None, -1))
         self.menuEditPreferences.setShortcut(QtWidgets.QApplication.translate("MainWindow", "Ctrl+Alt+;", None, -1))
-        self.menuEffectBrightnessContrast.setText(QtWidgets.QApplication.translate("MainWindow", "Brightness & Contrast", None, -1))
+        self.menuEffectBrightnessContrast.setText(QtWidgets.QApplication.translate("MainWindow", "Brightness && Contrast", None, -1))
 
