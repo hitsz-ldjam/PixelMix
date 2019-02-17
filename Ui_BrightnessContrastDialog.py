@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'BrightnessContrastDialog.ui',
-# licensing of 'BrightnessContrastDialog.ui' applies.
+# Form implementation generated from reading ui file '.\resources\BrightnessContrastDialog.ui',
+# licensing of '.\resources\BrightnessContrastDialog.ui' applies.
 #
-# Created: Fri Feb 15 21:57:07 2019
+# Created: Sun Feb 17 23:58:22 2019
 #      by: pyside2-uic  running on PySide2 5.12.0
 #
 # WARNING! All changes made in this file will be lost!

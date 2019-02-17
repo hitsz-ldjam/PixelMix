@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ColorWidget.ui',
-# licensing of 'ColorWidget.ui' applies.
+# Form implementation generated from reading ui file '.\resources\ColorWidget.ui',
+# licensing of '.\resources\ColorWidget.ui' applies.
 #
-# Created: Wed Feb 13 12:27:07 2019
+# Created: Sun Feb 17 23:58:08 2019
 #      by: pyside2-uic  running on PySide2 5.12.0
 #
 # WARNING! All changes made in this file will be lost!
