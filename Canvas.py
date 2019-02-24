@@ -25,7 +25,7 @@ class Canvas(QWidget):
         # todo add different format support
         if self.image.format() != QImage.Format_RGB32:
             self.image = self.image.convertToFormat(QImage.Format_RGB32)
-        self.mat = np.ndarray(shape=(self.image.height(), self.image.width(), self.image.depth()//8),
+        self.mat = np.ndarray(shape=(self.image.height(), self.image.width(), self.image.depth() // 8),
                               dtype=np.uint8,
                               buffer=self.image.bits())
         # invertible
@@ -114,11 +114,11 @@ class Canvas(QWidget):
             self.__painter.begin(self.frame)
 
             if self.__begin:
-                self.__painter.drawImage(1, 1, self.tempImage)
+                self.__painter.drawImage(0, 0, self.tempImage)
                 self.tempImage = self.image.copy()
                 self.tempMat = np.ndarray(shape=self.mat.shape, dtype=np.uint8, buffer=self.tempImage.bits())
             else:
-                self.__painter.drawImage(1, 1, self.image)
+                self.__painter.drawImage(0, 0, self.image)
 
             self.__painter.end()
             # if self.__begin:

@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file '.\resources\BrightnessContrastDialog.ui',
 # licensing of '.\resources\BrightnessContrastDialog.ui' applies.
 #
-# Created: Sun Feb 17 23:58:22 2019
+# Created: Sun Feb 24 16:33:27 2019
 #      by: pyside2-uic  running on PySide2 5.12.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -20,6 +20,8 @@ class Ui_BrightnessContrastDialog(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(BrightnessContrastDialog.sizePolicy().hasHeightForWidth())
         BrightnessContrastDialog.setSizePolicy(sizePolicy)
+        BrightnessContrastDialog.setMinimumSize(QtCore.QSize(500, 170))
+        BrightnessContrastDialog.setMaximumSize(QtCore.QSize(500, 170))
         self.vboxlayout = QtWidgets.QVBoxLayout(BrightnessContrastDialog)
         self.vboxlayout.setObjectName("vboxlayout")
         self.gridLayout = QtWidgets.QGridLayout()

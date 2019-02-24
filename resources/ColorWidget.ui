@@ -55,10 +55,13 @@
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
+    <property name="rightMargin">
+     <number>10</number>
+    </property>
     <item row="5" column="0">
      <widget class="QLabel" name="G">
       <property name="text">
-       <string>G :</string>
+       <string>G:</string>
       </property>
      </widget>
     </item>
@@ -72,35 +75,35 @@
     <item row="2" column="0">
      <widget class="QLabel" name="V">
       <property name="text">
-       <string>V :</string>
+       <string>V:</string>
       </property>
      </widget>
     </item>
     <item row="6" column="0">
      <widget class="QLabel" name="B">
       <property name="text">
-       <string>B :</string>
+       <string>B:</string>
       </property>
      </widget>
     </item>
     <item row="0" column="0">
      <widget class="QLabel" name="H">
       <property name="text">
-       <string>H :</string>
+       <string>H:</string>
       </property>
      </widget>
     </item>
     <item row="4" column="0">
      <widget class="QLabel" name="R">
       <property name="text">
-       <string>R :</string>
+       <string>R:</string>
       </property>
      </widget>
     </item>
     <item row="1" column="0">
      <widget class="QLabel" name="S">
       <property name="text">
-       <string>S :</string>
+       <string>S:</string>
       </property>
      </widget>
     </item>

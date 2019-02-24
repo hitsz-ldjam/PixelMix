@@ -65,7 +65,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.__sideToolBtn = []
         self.initSideToolBar()
 
-        # todo
+        # initialize main tool bar
+        self.__mainToolBarWidgets = []
         self.initMainToolBar()
 
         # add a default canvas
@@ -129,12 +130,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.__sideToolBtn[0].setDown(True)
 
-    def initMainToolBar(self):
-        # todo
-        slider = QSlider(Qt.Horizontal, self)
-        slider.setMaximumWidth(300)
-        self.mainToolBar.addWidget(slider)
-
     def switchTool(self):
         # magic
         prevTool = self.__currTool.type.value - 1
@@ -146,6 +141,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             self.__currTool = self.__tools[currTool]
             self.__currTool.setTarget(self.__tabWidget.currCanvas)
+
+    def initMainToolBar(self):
+        label = QLabel(self)
+        label.setText("Pen size: ")
+        self.__mainToolBarWidgets.append(label)
+        self.mainToolBar.addWidget(label)
+
+        slider = QSlider(self)
+        slider.setMaximumWidth(300)
+        slider.setObjectName("penSizeSlider")
+        slider.setOrientation(Qt.Horizontal)
+        slider.setSliderPosition(2)
+        slider.setRange(1, 100)
+        slider.valueChanged.connect(self.on_penSizeSlider_valueChanged)
+        self.__mainToolBarWidgets.append(slider)
+        self.mainToolBar.addWidget(slider)
+
+        spinBox = QSpinBox(self)
+        spinBox.setObjectName("penSizeSpinBox")
+        spinBox.setRange(1, 100)
+        spinBox.setValue(2)
+        spinBox.valueChanged.connect(self.on_penSizeSpinBox_valueChanged)
+        self.__mainToolBarWidgets.append(spinBox)
+        self.mainToolBar.addWidget(spinBox)
 
     def eventFilter(self, watched, event):
         if self.__tabWidget.currCanvas is not None:
@@ -239,15 +258,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         QLabel(_credits, dialog)
 
         dialog.setWindowTitle("About")
-        dialog.setWindowModality(Qt.ApplicationModal)
+        dialog.setWindowFlags(Qt.FramelessWindowHint | Qt.Popup)
         dialog.setWindowFlag(Qt.WindowContextHelpButtonHint, on=False)
+
         dialog.resize(600, 480)
+        dialog.setMinimumSize(600, 480)
+        dialog.setMaximumSize(600, 480)
         dialog.show()
         dialog.exec_()
 
     @Slot()
     def colorChanged(self, color):
         self.__pen.setColor(color)
+
+    @Slot(int)
+    def on_penSizeSlider_valueChanged(self, size):
+        # magic
+        self.__mainToolBarWidgets[2].setValue(size)
+        self.__pen.setWidth(size)
+
+    @Slot(int)
+    def on_penSizeSpinBox_valueChanged(self, size):
+        if self.focusWidget() is self.sender():
+            # magic
+            self.__mainToolBarWidgets[1].setValue(size)
 
     @Slot()
     def closeEvent(self, event):

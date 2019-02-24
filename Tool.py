@@ -216,14 +216,11 @@ class Eraser(ToolBase):
             self.painter.begin(self.canvas.getImage())
             oldColor = pen.color()
             pen.setColor(Qt.white)
-            # todo default size 2
-            pen.setWidth(10)
             self.painter.setPen(pen)
 
             self.painter.drawLine(self.lastPoint, event.pos())
             self.lastPoint = event.pos()
 
             self.painter.end()
-            pen.setWidth(2)
             pen.setColor(oldColor)
             self.canvas.update()
