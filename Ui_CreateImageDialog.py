@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\resources\CreateImageDialog.ui',
-# licensing of '.\resources\CreateImageDialog.ui' applies.
+# Form implementation generated from reading ui file 'CreateImageDialog.ui',
+# licensing of 'CreateImageDialog.ui' applies.
 #
-# Created: Sun Feb 17 23:57:47 2019
+# Created: Sun Feb 24 13:12:19 2019
 #      by: pyside2-uic  running on PySide2 5.12.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -15,17 +15,14 @@ class Ui_CreateImageDialog(object):
         CreateImageDialog.setObjectName("CreateImageDialog")
         CreateImageDialog.setWindowModality(QtCore.Qt.ApplicationModal)
         CreateImageDialog.resize(500, 160)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Maximum)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(CreateImageDialog.sizePolicy().hasHeightForWidth())
         CreateImageDialog.setSizePolicy(sizePolicy)
+        CreateImageDialog.setMinimumSize(QtCore.QSize(500, 160))
         CreateImageDialog.setMaximumSize(QtCore.QSize(500, 160))
-        self.verticalLayout_2 = QtWidgets.QVBoxLayout(CreateImageDialog)
-        self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.verticalLayout = QtWidgets.QVBoxLayout()
-        self.verticalLayout.setSpacing(20)
-        self.verticalLayout.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
+        self.verticalLayout = QtWidgets.QVBoxLayout(CreateImageDialog)
         self.verticalLayout.setObjectName("verticalLayout")
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
@@ -41,12 +38,7 @@ class Ui_CreateImageDialog(object):
         self.fileNameLine.setObjectName("fileNameLine")
         self.horizontalLayout.addWidget(self.fileNameLine)
         self.verticalLayout.addLayout(self.horizontalLayout)
-        self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_4.setSpacing(50)
-        self.horizontalLayout_4.setContentsMargins(-1, 0, -1, -1)
-        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_2.setSpacing(7)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.label_2 = QtWidgets.QLabel(CreateImageDialog)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
@@ -62,9 +54,8 @@ class Ui_CreateImageDialog(object):
         self.widthBox.setProperty("value", 600)
         self.widthBox.setObjectName("widthBox")
         self.horizontalLayout_2.addWidget(self.widthBox)
-        self.horizontalLayout_4.addLayout(self.horizontalLayout_2)
-        self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        spacerItem = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_2.addItem(spacerItem)
         self.label_3 = QtWidgets.QLabel(CreateImageDialog)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -72,21 +63,19 @@ class Ui_CreateImageDialog(object):
         sizePolicy.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
         self.label_3.setSizePolicy(sizePolicy)
         self.label_3.setObjectName("label_3")
-        self.horizontalLayout_3.addWidget(self.label_3)
+        self.horizontalLayout_2.addWidget(self.label_3)
         self.heightBox = QtWidgets.QSpinBox(CreateImageDialog)
         self.heightBox.setMinimum(1)
         self.heightBox.setMaximum(16777215)
         self.heightBox.setProperty("value", 480)
         self.heightBox.setObjectName("heightBox")
-        self.horizontalLayout_3.addWidget(self.heightBox)
-        self.horizontalLayout_4.addLayout(self.horizontalLayout_3)
-        self.verticalLayout.addLayout(self.horizontalLayout_4)
-        self.verticalLayout_2.addLayout(self.verticalLayout)
+        self.horizontalLayout_2.addWidget(self.heightBox)
+        self.verticalLayout.addLayout(self.horizontalLayout_2)
         self.buttonBox = QtWidgets.QDialogButtonBox(CreateImageDialog)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName("buttonBox")
-        self.verticalLayout_2.addWidget(self.buttonBox)
+        self.verticalLayout.addWidget(self.buttonBox)
 
         self.retranslateUi(CreateImageDialog)
         QtCore.QMetaObject.connectSlotsByName(CreateImageDialog)
