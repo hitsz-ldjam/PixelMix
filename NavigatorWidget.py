@@ -41,3 +41,4 @@ class NavigatorDockWidget(QDockWidget):
         self.dockContent = NavigatorWidget(self)
         self.setWidget(self.dockContent)
         self.setWindowTitle("Navigator")
+        self.setFeatures(QDockWidget.DockWidgetFloatable | QDockWidget.DockWidgetMovable)

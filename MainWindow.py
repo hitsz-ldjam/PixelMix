@@ -234,7 +234,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     <p>Line icon is designed by <a href="{flaticon}/authors/smashicons">Smashicons</a> from <a href="{flaticon}/">Flaticon</a>.</p>
     <p>Rectangle icon is designed by <a href="{flaticon}/authors/dario-ferrando">Dario Ferrando</a> from <a href="{flaticon}/">Flaticon</a>.</p>
     <p>Ellipse icon is designed by <a href="{freepik}/">Freepik</a>.</p>
-    <p>Style by <a href="https://github.com/ColinDuquesnoy/QDarkStyleSheet">QDarkStyleSheet</a>.</p>
+    <p>Style based on <a href="https://github.com/ColinDuquesnoy/QDarkStyleSheet">QDarkStyleSheet</a>.</p>
 </div>""".format(flaticon="https://www.flaticon.com", freepik="https://www.freepik.com")
         QLabel(_credits, dialog)
 

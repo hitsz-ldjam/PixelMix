@@ -191,3 +191,4 @@ class ColorDockWidget(QDockWidget):
         self.dockContent = ColorWidget(self)
         self.setWidget(self.dockContent)
         self.setWindowTitle("Palette")
+        self.setFeatures(QDockWidget.DockWidgetFloatable | QDockWidget.DockWidgetMovable)

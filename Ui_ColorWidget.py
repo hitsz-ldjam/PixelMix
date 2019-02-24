@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file '.\resources\ColorWidget.ui',
 # licensing of '.\resources\ColorWidget.ui' applies.
 #
-# Created: Sun Feb 17 23:58:08 2019
+# Created: Sun Feb 24 12:02:12 2019
 #      by: pyside2-uic  running on PySide2 5.12.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -28,7 +28,7 @@ class Ui_ColorWidget(object):
         self.gridLayoutWidget.setGeometry(QtCore.QRect(290, 10, 101, 231))
         self.gridLayoutWidget.setObjectName("gridLayoutWidget")
         self.gridLayout = QtWidgets.QGridLayout(self.gridLayoutWidget)
-        self.gridLayout.setContentsMargins(0, 0, 0, 0)
+        self.gridLayout.setContentsMargins(-1, -1, 10, -1)
         self.gridLayout.setObjectName("gridLayout")
         self.G = QtWidgets.QLabel(self.gridLayoutWidget)
         self.G.setObjectName("G")
@@ -83,10 +83,10 @@ class Ui_ColorWidget(object):
 
     def retranslateUi(self, ColorWidget):
         ColorWidget.setWindowTitle(QtWidgets.QApplication.translate("ColorWidget", "Form", None, -1))
-        self.G.setText(QtWidgets.QApplication.translate("ColorWidget", "G :", None, -1))
-        self.V.setText(QtWidgets.QApplication.translate("ColorWidget", "V :", None, -1))
-        self.B.setText(QtWidgets.QApplication.translate("ColorWidget", "B :", None, -1))
-        self.H.setText(QtWidgets.QApplication.translate("ColorWidget", "H :", None, -1))
-        self.R.setText(QtWidgets.QApplication.translate("ColorWidget", "R :", None, -1))
-        self.S.setText(QtWidgets.QApplication.translate("ColorWidget", "S :", None, -1))
+        self.G.setText(QtWidgets.QApplication.translate("ColorWidget", "G", None, -1))
+        self.V.setText(QtWidgets.QApplication.translate("ColorWidget", "V", None, -1))
+        self.B.setText(QtWidgets.QApplication.translate("ColorWidget", "B", None, -1))
+        self.H.setText(QtWidgets.QApplication.translate("ColorWidget", "H", None, -1))
+        self.R.setText(QtWidgets.QApplication.translate("ColorWidget", "R", None, -1))
+        self.S.setText(QtWidgets.QApplication.translate("ColorWidget", "S", None, -1))
 

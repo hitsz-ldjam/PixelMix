@@ -21,7 +21,7 @@ class BrightnessContrastDialog(QDialog, Ui_BrightnessContrastDialog):
     @Slot(int)
     def on_brightnessSlider_valueChanged(self, brightness):
         self.brightnessSpinBox.setValue(brightness)
-        contrast = self.contrastSlider.value() / 200 + 1
+        contrast = self.contrastSlider.value() / 400 + 1
 
         Effect.brightness_contrast(self.bufMat, brightness, contrast, self.canvas.mat)
         self.canvas.update()
@@ -35,7 +35,7 @@ class BrightnessContrastDialog(QDialog, Ui_BrightnessContrastDialog):
     def on_contrastSlider_valueChanged(self, contrast):
         self.contrastSpinBox.setValue(contrast)
         brightness = self.brightnessSlider.value()
-        contrast = contrast / 200 + 1
+        contrast = contrast / 400 + 1
 
         Effect.brightness_contrast(self.bufMat, brightness, contrast, self.canvas.mat)
         self.canvas.update()
