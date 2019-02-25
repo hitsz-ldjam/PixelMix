@@ -25,15 +25,13 @@ class Canvas(QWidget):
         # todo add different format support
         if self.image.format() != QImage.Format_RGB32:
             self.image = self.image.convertToFormat(QImage.Format_RGB32)
-        self.mat = np.ndarray(shape=(self.image.height(), self.image.width(), self.image.depth() // 8),
-                              dtype=np.uint8,
-                              buffer=self.image.bits())
+        self.mat = Canvas.generateMat(self.image)
         # invertible
         # self.__realMat = self.mat.astype(np.uint32)
 
         # double buffer
         self.tempImage = QImage(self.image)
-        self.tempMat = np.ndarray(shape=self.mat.shape, dtype=np.uint8, buffer=self.tempImage.bits())
+        self.tempMat = Canvas.generateMat(self.tempImage)
 
         self.__dockContent = QWidget()
 
@@ -115,17 +113,11 @@ class Canvas(QWidget):
 
             if self.__begin:
                 self.__painter.drawImage(0, 0, self.tempImage)
-                self.tempImage = self.image.copy()
-                self.tempMat = np.ndarray(shape=self.mat.shape, dtype=np.uint8, buffer=self.tempImage.bits())
+                self.copyImageToTempImage()
             else:
                 self.__painter.drawImage(0, 0, self.image)
 
             self.__painter.end()
-            # if self.__begin:
-            #     self.frame.setPixmap(QPixmap(self.tempImage))
-            #     self.tempImage = self.image.copy()
-            # else:
-            #     self.frame.setPixmap(QPixmap(self.image))
 
         return False
 
@@ -134,6 +126,7 @@ class Canvas(QWidget):
 
     def endDblBuffer(self):
         self.__begin = False
+        self.copyTempImageToImage()
 
     def getImage(self):
         self.updated()
@@ -142,6 +135,14 @@ class Canvas(QWidget):
             return self.tempImage
         else:
             return self.image
+
+    def copyImageToTempImage(self):
+        self.tempImage = self.image.copy()
+        self.tempMat = Canvas.generateMat(self.tempImage)
+
+    def copyTempImageToImage(self):
+        self.image = self.tempImage.copy()
+        self.mat = Canvas.generateMat(self.image)
 
     def updated(self):
         if self.isSaved is True:
@@ -180,3 +181,21 @@ class Canvas(QWidget):
 
     def update(self):
         self.frame.repaint()
+
+    @staticmethod
+    # QImage format must be RGB32
+    def generateMat(image: QImage) -> np.ndarray:
+        return np.ndarray(shape=(image.height(), image.width(), image.depth() // 8),
+                          dtype=np.uint8,
+                          buffer=image.bits())
+
+    def resizeImage(self, width: int, height: int):
+        # resize image and tempImage
+        self.image = self.image.scaled(width,
+                                       height,
+                                       Qt.IgnoreAspectRatio)
+        self.mat = Canvas.generateMat(self.image)
+        self.copyImageToTempImage()
+
+        # resize frame
+        self.frame.resize(width, height)

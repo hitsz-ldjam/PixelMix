@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\resources\MainWindow.ui',
-# licensing of '.\resources\MainWindow.ui' applies.
+# Form implementation generated from reading ui file 'MainWindow.ui',
+# licensing of 'MainWindow.ui' applies.
 #
-# Created: Sun Feb 17 23:25:51 2019
+# Created: Sun Feb 24 19:41:47 2019
 #      by: pyside2-uic  running on PySide2 5.12.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -44,6 +44,8 @@ class Ui_MainWindow(object):
         self.menuEffects.setObjectName("menuEffects")
         self.menuColor_Correction = QtWidgets.QMenu(self.menuEffects)
         self.menuColor_Correction.setObjectName("menuColor_Correction")
+        self.menuImage = QtWidgets.QMenu(self.menubar)
+        self.menuImage.setObjectName("menuImage")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setStyleSheet("")
@@ -76,6 +78,10 @@ class Ui_MainWindow(object):
         self.menuEditPreferences.setObjectName("menuEditPreferences")
         self.menuEffectBrightnessContrast = QtWidgets.QAction(MainWindow)
         self.menuEffectBrightnessContrast.setObjectName("menuEffectBrightnessContrast")
+        self.menuImageSize = QtWidgets.QAction(MainWindow)
+        self.menuImageSize.setObjectName("menuImageSize")
+        self.menuCanvasSize = QtWidgets.QAction(MainWindow)
+        self.menuCanvasSize.setObjectName("menuCanvasSize")
         self.menuFile.addAction(self.menuFileCreate)
         self.menuFile.addAction(self.menuFileOpen)
         self.menuFile.addSeparator()
@@ -87,8 +93,11 @@ class Ui_MainWindow(object):
         self.menuHelp.addAction(self.menuHelpAbout)
         self.menuColor_Correction.addAction(self.menuEffectBrightnessContrast)
         self.menuEffects.addAction(self.menuColor_Correction.menuAction())
+        self.menuImage.addAction(self.menuImageSize)
+        self.menuImage.addAction(self.menuCanvasSize)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuEdit.menuAction())
+        self.menubar.addAction(self.menuImage.menuAction())
         self.menubar.addAction(self.menuEffects.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
 
@@ -102,6 +111,7 @@ class Ui_MainWindow(object):
         self.menuHelp.setTitle(QtWidgets.QApplication.translate("MainWindow", "Help", None, -1))
         self.menuEffects.setTitle(QtWidgets.QApplication.translate("MainWindow", "Effect", None, -1))
         self.menuColor_Correction.setTitle(QtWidgets.QApplication.translate("MainWindow", "Color Correction", None, -1))
+        self.menuImage.setTitle(QtWidgets.QApplication.translate("MainWindow", "Image", None, -1))
         self.mainToolBar.setWindowTitle(QtWidgets.QApplication.translate("MainWindow", "main tool bar", None, -1))
         self.sideToolBar.setWindowTitle(QtWidgets.QApplication.translate("MainWindow", "side tool bar", None, -1))
         self.menuFileCreate.setText(QtWidgets.QApplication.translate("MainWindow", "New", None, -1))
@@ -121,4 +131,6 @@ class Ui_MainWindow(object):
         self.menuEditPreferences.setText(QtWidgets.QApplication.translate("MainWindow", "Preferences", None, -1))
         self.menuEditPreferences.setShortcut(QtWidgets.QApplication.translate("MainWindow", "Ctrl+Alt+;", None, -1))
         self.menuEffectBrightnessContrast.setText(QtWidgets.QApplication.translate("MainWindow", "Brightness && Contrast", None, -1))
+        self.menuImageSize.setText(QtWidgets.QApplication.translate("MainWindow", "Image Size", None, -1))
+        self.menuCanvasSize.setText(QtWidgets.QApplication.translate("MainWindow", "Canvas Size", None, -1))
 

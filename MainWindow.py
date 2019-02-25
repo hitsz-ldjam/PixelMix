@@ -14,6 +14,7 @@ from TabWidget import TabWidget
 
 from BrightnessContrastDialog import BrightnessContrastDialog
 from CreateImageDialog import CreateImageDialog
+from ImageSizeDialog import ImageSizeDialog
 
 from Ui_MainWindow import Ui_MainWindow
 
@@ -46,6 +47,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.__painter = QPainter()
         self.__pen = QPen()
         self.__pen.setWidth(2)
+        self.__pen.setCapStyle(Qt.RoundCap)
         # anti aliasing
         self.__painter.setRenderHint(QPainter.Antialiasing, True)
 
@@ -282,6 +284,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if self.focusWidget() is self.sender():
             # magic
             self.__mainToolBarWidgets[1].setValue(size)
+
+    @Slot()
+    def on_menuImageSize_triggered(self):
+        dialog = ImageSizeDialog(self, self.__tabWidget.currCanvas)
+        dialog.exec_()
+
+    @Slot()
+    def on_menuCanvasSize_triggered(self):
+        pass
 
     @Slot()
     def closeEvent(self, event):

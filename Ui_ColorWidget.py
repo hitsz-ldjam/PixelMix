@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\resources\ColorWidget.ui',
-# licensing of '.\resources\ColorWidget.ui' applies.
+# Form implementation generated from reading ui file 'ColorWidget.ui',
+# licensing of 'ColorWidget.ui' applies.
 #
-# Created: Sun Feb 24 16:29:04 2019
+# Created: Mon Feb 25 21:49:15 2019
 #      by: pyside2-uic  running on PySide2 5.12.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -25,7 +25,7 @@ class Ui_ColorWidget(object):
         self.hueSlider.setOrientation(QtCore.Qt.Vertical)
         self.hueSlider.setObjectName("hueSlider")
         self.gridLayoutWidget = QtWidgets.QWidget(ColorWidget)
-        self.gridLayoutWidget.setGeometry(QtCore.QRect(290, 10, 101, 231))
+        self.gridLayoutWidget.setGeometry(QtCore.QRect(280, 10, 111, 231))
         self.gridLayoutWidget.setObjectName("gridLayoutWidget")
         self.gridLayout = QtWidgets.QGridLayout(self.gridLayoutWidget)
         self.gridLayout.setContentsMargins(-1, -1, 10, -1)

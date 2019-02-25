@@ -87,13 +87,13 @@ class StraightLine(ToolBase):
 
             else:
                 # end drawing
-                self.canvas.endDblBuffer()
                 self.painter.begin(self.canvas.getImage())
                 self.painter.setPen(pen)
 
                 self.painter.drawLine(self.beginPoint, self.endPoint)
 
                 self.painter.end()
+                self.canvas.endDblBuffer()
                 self.canvas.update()
 
                 self.isDrawing = False
@@ -129,13 +129,13 @@ class Rect(ToolBase):
 
             else:
                 # end drawing
-                self.canvas.endDblBuffer()
                 self.painter.begin(self.canvas.getImage())
                 self.painter.setPen(pen)
 
                 self.painter.drawRect(self.calculateRect(self.beginPoint, self.endPoint))
 
                 self.painter.end()
+                self.canvas.endDblBuffer()
                 self.canvas.update()
 
                 self.isDrawing = False
@@ -171,13 +171,13 @@ class Ellipse(ToolBase):
 
             else:
                 # end drawing
-                self.canvas.endDblBuffer()
                 self.painter.begin(self.canvas.getImage())
                 self.painter.setPen(pen)
 
                 self.painter.drawEllipse(self.calculateRect(self.beginPoint, self.endPoint))
 
                 self.painter.end()
+                self.canvas.endDblBuffer()
                 self.canvas.update()
 
                 self.isDrawing = False

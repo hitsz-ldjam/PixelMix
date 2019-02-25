@@ -96,8 +96,16 @@
     </widget>
     <addaction name="menuColor_Correction"/>
    </widget>
+   <widget class="QMenu" name="menuImage">
+    <property name="title">
+     <string>Image</string>
+    </property>
+    <addaction name="menuImageSize"/>
+    <addaction name="menuCanvasSize"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
+   <addaction name="menuImage"/>
    <addaction name="menuEffects"/>
    <addaction name="menuHelp"/>
   </widget>
@@ -214,6 +222,16 @@
   <action name="menuEffectBrightnessContrast">
    <property name="text">
     <string>Brightness &amp;&amp; Contrast</string>
+   </property>
+  </action>
+  <action name="menuImageSize">
+   <property name="text">
+    <string>Image Size</string>
+   </property>
+  </action>
+  <action name="menuCanvasSize">
+   <property name="text">
+    <string>Canvas Size</string>
    </property>
   </action>
  </widget>
