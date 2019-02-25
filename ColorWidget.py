@@ -1,6 +1,8 @@
 from PySide2.QtCore import *
 from PySide2.QtWidgets import *
 from PySide2.QtGui import *
+
+from SliderProxyStyle import SliderProxyStyle
 from Ui_ColorWidget import Ui_ColorWidget
 
 
@@ -11,6 +13,7 @@ class ColorWidget(QWidget, Ui_ColorWidget):
     def __init__(self, parent):
         super().__init__(parent)
         self.setupUi(self)
+        self.hueSlider.setStyle(SliderProxyStyle(self.hueSlider.style()))
         self.colorRect.installEventFilter(self)
         self.colorRect.setMouseTracking(True)
 

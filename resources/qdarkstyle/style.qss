@@ -323,7 +323,6 @@ QRadioButton::indicator:unchecked:disabled {
 
 QMenuBar {
     background-color: #535353;
-    padding: 0px;
     border: 1px solid #262626;
     color: #F0F0F0;
 }
@@ -335,7 +334,7 @@ QMenuBar:focus {
 QMenuBar::item {
     background: transparent;
     padding: 4px;
-    padding-right: 10px;
+    margin-right: 10px;
 }
 
 QMenuBar::item:selected {
@@ -347,15 +346,13 @@ QMenuBar::item:pressed {
     border: 0px solid #535353;
     background-color: #148CD2;
     color: #F0F0F0;
-    margin-bottom: 0px;
-    padding-bottom: 0px;
 }
 
 /* QMenu ------------------------------------------------------------------ */
 
 QMenu {
     border: 0px solid #535353;
-    color: #F0F0F0;
+    color: #000000;
     margin: 0px;
 }
 
@@ -376,14 +373,12 @@ QMenu::icon {
 QMenu::item {
     padding: 4px 24px 4px 24px;
     border: 1px transparent #535353;  /* reserve space for selection border */
-    background-color: #535353;
+    background-color: #F0F0F0;
 }
 
 QMenu::item:selected {
     color: #F0F0F0;
 }
-
-
 
 QMenu::indicator {
     width: 12px;
@@ -667,8 +662,22 @@ QToolBar {
     font-weight: bold;
 }
 
-QToolBar QToolButton{
-    background-color: #535353;
+QToolBar QWidget {
+    background-color: transparent;
+}
+
+QToolBar QSlider::sub-page:horizontal {
+    background: #148cd2;
+}
+
+QToolBar QSlider::add-page:horizontal {
+    background: #262626;
+}
+
+QToolBar QSpinBox {
+    background-color: #262626;
+    margin: 3px;
+    margin-left: 5px;
 }
 
 QToolBar::handle:horizontal {

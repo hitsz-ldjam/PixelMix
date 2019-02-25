@@ -3,6 +3,7 @@ from PySide2.QtWidgets import *
 
 import Effect
 
+from SliderProxyStyle import SliderProxyStyle
 from Ui_BrightnessContrastDialog import Ui_BrightnessContrastDialog
 
 
@@ -10,6 +11,10 @@ class BrightnessContrastDialog(QDialog, Ui_BrightnessContrastDialog):
     def __init__(self, parent, canvas):
         super().__init__(parent)
         self.setupUi(self)
+
+        self.brightnessSlider.setStyle(SliderProxyStyle(self.brightnessSlider.style()))
+        self.contrastSlider.setStyle(SliderProxyStyle(self.contrastSlider.style()))
+
         self.setWindowFlag(Qt.WindowContextHelpButtonHint, on=False)
         self.setWindowFlag(Qt.WindowCloseButtonHint, on=False)
 
@@ -21,6 +26,7 @@ class BrightnessContrastDialog(QDialog, Ui_BrightnessContrastDialog):
     @Slot(int)
     def on_brightnessSlider_valueChanged(self, brightness):
         self.brightnessSpinBox.setValue(brightness)
+        brightness /= 2
         contrast = self.contrastSlider.value() / 400 + 1
 
         Effect.brightness_contrast(self.bufMat, brightness, contrast, self.canvas.mat)
@@ -34,7 +40,7 @@ class BrightnessContrastDialog(QDialog, Ui_BrightnessContrastDialog):
     @Slot(int)
     def on_contrastSlider_valueChanged(self, contrast):
         self.contrastSpinBox.setValue(contrast)
-        brightness = self.brightnessSlider.value()
+        brightness = self.brightnessSlider.value() / 2
         contrast = contrast / 400 + 1
 
         Effect.brightness_contrast(self.bufMat, brightness, contrast, self.canvas.mat)
