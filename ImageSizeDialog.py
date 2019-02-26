@@ -4,11 +4,11 @@ from PySide2.QtGui import *
 
 from Canvas import Canvas
 
-from Ui_ImageSizeDialog import Ui_ImageSize
+from Ui_ImageSizeDialog import Ui_ImageSizeDialog
 
 
-class ImageSizeDialog(QDialog, Ui_ImageSize):
-    def __init__(self, parent: QWidget, canvas):
+class ImageSizeDialog(QDialog, Ui_ImageSizeDialog):
+    def __init__(self, parent: QWidget, canvas: Canvas):
         super().__init__(parent)
         self.setupUi(self)
         self.setWindowFlag(Qt.WindowContextHelpButtonHint, on=False)

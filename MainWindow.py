@@ -16,6 +16,7 @@ from TabWidget import TabWidget
 from BrightnessContrastDialog import BrightnessContrastDialog
 from CreateImageDialog import CreateImageDialog
 from ImageSizeDialog import ImageSizeDialog
+from CanvasSizeDialog import CanvasSizeDialog
 
 from Ui_MainWindow import Ui_MainWindow
 
@@ -49,6 +50,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.__pen = QPen()
         self.__pen.setWidth(2)
         self.__pen.setCapStyle(Qt.RoundCap)
+        self.__pen.setJoinStyle(Qt.RoundJoin)
+
         # anti aliasing
         self.__painter.setRenderHint(QPainter.Antialiasing, True)
 
@@ -289,7 +292,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     @Slot()
     def on_menuCanvasSize_triggered(self):
-        pass
+        dialog = CanvasSizeDialog(self, self.__tabWidget.currCanvas)
+        dialog.exec_()
 
     @Slot()
     def closeEvent(self, event):
