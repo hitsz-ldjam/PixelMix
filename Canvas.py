@@ -25,13 +25,13 @@ class Canvas(QWidget):
         # todo add different format support
         if self.image.format() != QImage.Format_RGB32:
             self.image = self.image.convertToFormat(QImage.Format_RGB32)
-        self.mat = Canvas.generateMat(self.image)
+        self.mat = Canvas.generateMatFromImage(self.image)
         # invertible
         # self.__realMat = self.mat.astype(np.uint32)
 
         # double buffer
         self.tempImage = QImage(self.image)
-        self.tempMat = Canvas.generateMat(self.tempImage)
+        self.tempMat = Canvas.generateMatFromImage(self.tempImage)
 
         self.__dockContent = QWidget()
 
@@ -56,7 +56,7 @@ class Canvas(QWidget):
 
         self.__painter = QPainter()
 
-        self.__begin = False
+        self.__useDbBuffer = False
 
     @classmethod
     def new(cls, width, height, imgFormat=QImage.Format_RGB32, initColor=Qt.white, *, title, parent):
@@ -98,7 +98,7 @@ class Canvas(QWidget):
                                                                       "UseNativeDialog") == "False" else 0
         filePath, _ = QFileDialog.getSaveFileName(self,
                                                   self.tr("Save"),
-                                                  self.filePath.rpartition(".")[0] + "jpg",
+                                                  self.filePath.rpartition(".")[0] + ".jpg",
                                                   "JPEG (*.jpg *.jpeg);;PNG (*.png);;All File Formats (*.*)",
                                                   "JPEG (*.jpg *.jpeg)",
                                                   options)
@@ -111,7 +111,7 @@ class Canvas(QWidget):
         if watched == self.frame and event.type() == QEvent.Paint:
             self.__painter.begin(self.frame)
 
-            if self.__begin:
+            if self.__useDbBuffer:
                 self.__painter.drawImage(0, 0, self.tempImage)
                 self.copyImageToTempImage()
             else:
@@ -121,28 +121,31 @@ class Canvas(QWidget):
 
         return False
 
-    def beginDblBuffer(self):
-        self.__begin = True
+    def beginDraw(self, useDbBuffer: bool):
+        self.__useDbBuffer = useDbBuffer
 
-    def endDblBuffer(self):
-        self.__begin = False
-        self.copyTempImageToImage()
+    def endDraw(self):
+        if self.__useDbBuffer:
+            self.__useDbBuffer = False
+            self.copyTempImageToImage()
+        else:
+            self.copyImageToTempImage()
 
     def getImage(self):
         self.updated()
 
-        if self.__begin:
+        if self.__useDbBuffer:
             return self.tempImage
         else:
             return self.image
 
     def copyImageToTempImage(self):
         self.tempImage = self.image.copy()
-        self.tempMat = Canvas.generateMat(self.tempImage)
+        self.tempMat = Canvas.generateMatFromImage(self.tempImage)
 
     def copyTempImageToImage(self):
         self.image = self.tempImage.copy()
-        self.mat = Canvas.generateMat(self.image)
+        self.mat = Canvas.generateMatFromImage(self.image)
 
     def updated(self):
         if self.isSaved is True:
@@ -184,7 +187,7 @@ class Canvas(QWidget):
 
     @staticmethod
     # QImage format must be RGB32
-    def generateMat(image: QImage) -> np.ndarray:
+    def generateMatFromImage(image: QImage) -> np.ndarray:
         return np.ndarray(shape=(image.height(), image.width(), image.depth() // 8),
                           dtype=np.uint8,
                           buffer=image.bits())
@@ -194,7 +197,7 @@ class Canvas(QWidget):
         self.image = self.image.scaled(width,
                                        height,
                                        Qt.IgnoreAspectRatio)
-        self.mat = Canvas.generateMat(self.image)
+        self.mat = Canvas.generateMatFromImage(self.image)
         self.copyImageToTempImage()
 
         # resize frame

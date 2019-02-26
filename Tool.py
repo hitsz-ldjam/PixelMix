@@ -52,8 +52,11 @@ class Brush(ToolBase):
             if not self.isDrawing:
                 self.lastPoint = event.pos()
                 self.isDrawing = True
+                self.canvas.beginDraw(False)
+
         # end drawing
         if event.type() == QEvent.MouseButtonRelease and event.button() == Qt.LeftButton:
+            self.canvas.endDraw()
             self.isDrawing = False
 
         # while drawing
@@ -82,7 +85,7 @@ class StraightLine(ToolBase):
             if not self.isDrawing:
                 # begin drawing
                 self.beginPoint = event.pos()
-                self.canvas.beginDblBuffer()
+                self.canvas.beginDraw(True)
                 self.isDrawing = True
 
             else:
@@ -93,7 +96,7 @@ class StraightLine(ToolBase):
                 self.painter.drawLine(self.beginPoint, self.endPoint)
 
                 self.painter.end()
-                self.canvas.endDblBuffer()
+                self.canvas.endDraw()
                 self.canvas.update()
 
                 self.isDrawing = False
@@ -124,7 +127,7 @@ class Rect(ToolBase):
             if not self.isDrawing:
                 # begin drawing
                 self.beginPoint = event.pos()
-                self.canvas.beginDblBuffer()
+                self.canvas.beginDraw(True)
                 self.isDrawing = True
 
             else:
@@ -135,7 +138,7 @@ class Rect(ToolBase):
                 self.painter.drawRect(self.calculateRect(self.beginPoint, self.endPoint))
 
                 self.painter.end()
-                self.canvas.endDblBuffer()
+                self.canvas.endDraw()
                 self.canvas.update()
 
                 self.isDrawing = False
@@ -166,7 +169,7 @@ class Ellipse(ToolBase):
             if not self.isDrawing:
                 # begin drawing
                 self.beginPoint = event.pos()
-                self.canvas.beginDblBuffer()
+                self.canvas.beginDraw(True)
                 self.isDrawing = True
 
             else:
@@ -177,7 +180,7 @@ class Ellipse(ToolBase):
                 self.painter.drawEllipse(self.calculateRect(self.beginPoint, self.endPoint))
 
                 self.painter.end()
-                self.canvas.endDblBuffer()
+                self.canvas.endDraw()
                 self.canvas.update()
 
                 self.isDrawing = False
@@ -207,8 +210,11 @@ class Eraser(ToolBase):
             if not self.isDrawing:
                 self.lastPoint = event.pos()
                 self.isDrawing = True
+                self.canvas.beginDraw(False)
+
         # end drawing
         if event.type() == QEvent.MouseButtonRelease and event.button() == Qt.LeftButton:
+            self.canvas.endDraw()
             self.isDrawing = False
 
         # while drawing

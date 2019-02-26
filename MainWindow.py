@@ -247,56 +247,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_menuHelpAbout_triggered(self):
         dialog = QDialog(self)
 
-        # todo fuck pyqt
-        html = """<html>
-<style type="text/css">
-body {
-    background-color: #fff;
-    font-family: "Helvetica Neue", Helvetica, "Microsoft YaHei", Arial, sans-serif;
-    color: rgb(56, 68, 82);
-}
-h1, h3 {
-    font-size: 24px
-    font-weight: 700;
-    margin-bottom: 10px;
-    margin-top: 18px;
-}
-a {
-    color: rgb(98, 187, 231);
-    font-size: 14px;
-    font-weight: 400;
-    outline-color: rgb(98, 187, 231);
-    text-decoration: none;
-}
-a:hover, a:focus {
-    color: rgb(38, 73, 91);
-}
-p {
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 20px;
-    margin-bottom: 12px;
-    margin-top: 10px;
-}
-</style>
-<body>
-<h1>Pixel Sketch</h1>
-<a href="https://github.com/hitsz-ldjam/PixelSketch">Version 0.1.0</a>
-<h3>License</h3>
-<p>GPL-3.0</p>
-<h3>Credits</h3>
-<div>
-    <p>UI rendered by <a href="https://www.qt.io/">Qt</a>.</p>
-    <p>Style based on <a href="https://github.com/ColinDuquesnoy/QDarkStyleSheet">QDarkStyleSheet</a>.</p>
-    <p>Brush icon designed by <a href="https://www.flaticon.com/authors/vectorgraphit">Vectorgraphit</a> from <a href="https://www.flaticon.com/">Flaticon</a>.</p>
-    <p>Eraser icon designed by <a href="https://www.freepik.com/">Freepik</a>.</p>
-    <p>Line icon designed by <a href="https://www.flaticon.com/authors/smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" >Flaticon</a>.</p>
-    <p>Rectangle icon designed by <a href="https://www.flaticon.com/authors/dario-ferrando">Dario Ferrando</a> from <a href="https://www.flaticon.com/">Flaticon</a>.</p>
-    <p>Ellipse icon designed by <a href="https://www.freepik.com/">Freepik</a>.</p>
-</div>
-</body>
-</html>"""
-        # Any fucking widget can display this?
+        textBrowser = QTextBrowser(dialog)
+        textBrowser.setSource(QUrl("./resources/AboutWidget.html"))
+        textBrowser.setOpenExternalLinks(True)
+
+        # add a layout to store QTextBrowser
+        layout = QGridLayout(dialog)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(textBrowser)
 
         dialog.setWindowTitle("About")
         dialog.setWindowFlags(Qt.FramelessWindowHint | Qt.Popup)
