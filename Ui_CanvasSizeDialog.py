@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'CanvasSizeDialog.ui',
-# licensing of 'CanvasSizeDialog.ui' applies.
+# Form implementation generated from reading ui file '.\resources\CanvasSizeDialog.ui',
+# licensing of '.\resources\CanvasSizeDialog.ui' applies.
 #
-# Created: Tue Feb 26 17:39:52 2019
+# Created: Tue Feb 26 20:09:05 2019
 #      by: pyside2-uic  running on PySide2 5.12.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -118,7 +118,7 @@ class Ui_CanvasSizeDialog(object):
         QtCore.QMetaObject.connectSlotsByName(CanvasSizeDialog)
 
     def retranslateUi(self, CanvasSizeDialog):
-        CanvasSizeDialog.setWindowTitle(QtWidgets.QApplication.translate("CanvasSizeDialog", "Dialog", None, -1))
+        CanvasSizeDialog.setWindowTitle(QtWidgets.QApplication.translate("CanvasSizeDialog", "Canvas Size", None, -1))
         self.label_3.setText(QtWidgets.QApplication.translate("CanvasSizeDialog", "X ", None, -1))
         self.label_4.setText(QtWidgets.QApplication.translate("CanvasSizeDialog", "Y ", None, -1))
         self.label_2.setText(QtWidgets.QApplication.translate("CanvasSizeDialog", "Width", None, -1))

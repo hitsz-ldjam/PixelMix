@@ -49,9 +49,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.__painter = QPainter()
         self.__pen = QPen()
         self.__pen.setWidth(2)
+        # todo add cap style settings
         self.__pen.setCapStyle(Qt.RoundCap)
         self.__pen.setJoinStyle(Qt.RoundJoin)
-
         # anti aliasing
         self.__painter.setRenderHint(QPainter.Antialiasing, True)
 
@@ -232,7 +232,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dialog.setWindowTitle("Preferences")
         dialog.setWindowFlag(Qt.WindowContextHelpButtonHint, on=False)
         dialog.setModal(True)
-        dialog.resize(280, 200)
+
+        size = QSize(340, 200)
+        dialog.resize(size)
+        dialog.setMinimumSize(size)
+        dialog.setMaximumSize(size)
         dialog.show()
         dialog.exec_()
 
@@ -250,22 +254,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_menuHelpAbout_triggered(self):
         dialog = QDialog(self)
 
-        textBrowser = QTextBrowser(dialog)
-        textBrowser.setSource(QUrl("./resources/AboutWidget.html"))
-        textBrowser.setOpenExternalLinks(True)
+        size = QSize(860, 460)
 
-        # add a layout to store QTextBrowser
-        layout = QGridLayout(dialog)
-        layout.setContentsMargins(0, 0, 0, 0)
-        layout.addWidget(textBrowser)
+        textBrowser = QTextBrowser(dialog)
+        textBrowser.resize(size)
+        with open("resources/AboutWidget.html", "r", encoding="utf-8") as html:
+            textBrowser.setHtml(html.read())
+        textBrowser.setOpenExternalLinks(True)
 
         dialog.setWindowTitle("About")
         dialog.setWindowFlags(Qt.FramelessWindowHint | Qt.Popup)
         dialog.setWindowFlag(Qt.WindowContextHelpButtonHint, on=False)
 
-        dialog.resize(600, 480)
-        dialog.setMinimumSize(600, 480)
-        dialog.setMaximumSize(600, 480)
+        dialog.resize(size)
+        dialog.setMinimumSize(size)
+        dialog.setMaximumSize(size)
         dialog.show()
         dialog.exec_()
 
@@ -307,16 +310,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             button = QMessageBox.warning(self,
                                          "Save changes?",
                                          "There are files that have been modified, save changes?",
-                                         QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
+                                         QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel)
 
-            # cancel
             if button == QMessageBox.Cancel:
                 event.ignore()
-            # no
-            if button == QMessageBox.No:
+
+            if button == QMessageBox.Discard:
                 event.accept()
-            # yes
-            if button == QMessageBox.Yes:
+
+            if button == QMessageBox.Save:
                 for canvas in self.__canvases:
                     if not canvas.isSaved:
                         canvas.save()

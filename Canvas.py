@@ -162,19 +162,16 @@ class Canvas(QWidget):
             button = QMessageBox.warning(self.parent(),
                                          "Save changes?",
                                          self.fileName + " has been modified, save changes?",
-                                         QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
+                                         QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel)
 
-            # cancel
             if button == QMessageBox.Cancel:
                 event.ignore()
 
-            # no
-            if button == QMessageBox.No:
+            if button == QMessageBox.Discard:
                 self.tabWidget.removeCanvas(self)
                 event.accept()
 
-            # yes
-            if button == QMessageBox.Yes:
+            if button == QMessageBox.Save:
                 self.save()
                 self.tabWidget.removeCanvas(self)
                 event.accept()

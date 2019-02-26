@@ -228,10 +228,16 @@
    <property name="text">
     <string>Image Size</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+I</string>
+   </property>
   </action>
   <action name="menuCanvasSize">
    <property name="text">
     <string>Canvas Size</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+C</string>
    </property>
   </action>
  </widget>

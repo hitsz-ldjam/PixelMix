@@ -4,7 +4,8 @@ from PySide2.QtCore import *
 from PySide2.QtWidgets import *
 
 
-# todo need clean up
+# todo fix error code
+# Process finished with exit code -1073741819 (0xC0000005)
 class SliderProxyStyle(QProxyStyle):
     def styleHint(self,
                   hint: Any,
@@ -13,4 +14,4 @@ class SliderProxyStyle(QProxyStyle):
                   returnData: QStyleHintReturn = ...) -> int:
         if hint == QStyle.SH_Slider_AbsoluteSetButtons:
             return Qt.LeftButton | Qt.MidButton | Qt.RightButton
-        return super(SliderProxyStyle, self).styleHint(hint, option, widget, returnData)
+        return super().styleHint(hint, option, widget, returnData)

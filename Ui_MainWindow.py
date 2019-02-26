@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'MainWindow.ui',
-# licensing of 'MainWindow.ui' applies.
+# Form implementation generated from reading ui file '.\resources\MainWindow.ui',
+# licensing of '.\resources\MainWindow.ui' applies.
 #
-# Created: Sun Feb 24 19:41:47 2019
+# Created: Tue Feb 26 19:57:09 2019
 #      by: pyside2-uic  running on PySide2 5.12.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -132,5 +132,7 @@ class Ui_MainWindow(object):
         self.menuEditPreferences.setShortcut(QtWidgets.QApplication.translate("MainWindow", "Ctrl+Alt+;", None, -1))
         self.menuEffectBrightnessContrast.setText(QtWidgets.QApplication.translate("MainWindow", "Brightness && Contrast", None, -1))
         self.menuImageSize.setText(QtWidgets.QApplication.translate("MainWindow", "Image Size", None, -1))
+        self.menuImageSize.setShortcut(QtWidgets.QApplication.translate("MainWindow", "Ctrl+Alt+I", None, -1))
         self.menuCanvasSize.setText(QtWidgets.QApplication.translate("MainWindow", "Canvas Size", None, -1))
+        self.menuCanvasSize.setShortcut(QtWidgets.QApplication.translate("MainWindow", "Ctrl+Alt+C", None, -1))
 

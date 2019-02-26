@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ImageSizeDialog.ui',
-# licensing of 'ImageSizeDialog.ui' applies.
+# Form implementation generated from reading ui file '.\resources\ImageSizeDialog.ui',
+# licensing of '.\resources\ImageSizeDialog.ui' applies.
 #
-# Created: Tue Feb 26 17:28:00 2019
+# Created: Tue Feb 26 20:09:07 2019
 #      by: pyside2-uic  running on PySide2 5.12.0
 #
 # WARNING! All changes made in this file will be lost!
@@ -24,10 +24,6 @@ class Ui_ImageSizeDialog(object):
         ImageSizeDialog.setMaximumSize(QtCore.QSize(510, 200))
         self.formLayout = QtWidgets.QFormLayout(ImageSizeDialog)
         self.formLayout.setObjectName("formLayout")
-        self.originalSizeLabel = QtWidgets.QLabel(ImageSizeDialog)
-        self.originalSizeLabel.setText("")
-        self.originalSizeLabel.setObjectName("originalSizeLabel")
-        self.formLayout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.originalSizeLabel)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.label = QtWidgets.QLabel(ImageSizeDialog)
@@ -48,13 +44,18 @@ class Ui_ImageSizeDialog(object):
         self.widthSpinBox.setMaximum(16777215)
         self.widthSpinBox.setObjectName("widthSpinBox")
         self.horizontalLayout.addWidget(self.widthSpinBox)
-        self.formLayout.setLayout(2, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout)
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem)
+        self.formLayout.setLayout(4, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout)
         self.lockAspect = QtWidgets.QRadioButton(ImageSizeDialog)
         self.lockAspect.setText("")
         self.lockAspect.setIconSize(QtCore.QSize(20, 20))
         self.lockAspect.setChecked(True)
         self.lockAspect.setObjectName("lockAspect")
-        self.formLayout.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.lockAspect)
+        self.formLayout.setWidget(5, QtWidgets.QFormLayout.LabelRole, self.lockAspect)
+        self.label_3 = QtWidgets.QLabel(ImageSizeDialog)
+        self.label_3.setObjectName("label_3")
+        self.formLayout.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.label_3)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.label_2 = QtWidgets.QLabel(ImageSizeDialog)
@@ -70,18 +71,22 @@ class Ui_ImageSizeDialog(object):
         self.heightSpinBox.setMaximum(16777215)
         self.heightSpinBox.setObjectName("heightSpinBox")
         self.horizontalLayout_2.addWidget(self.heightSpinBox)
-        self.formLayout.setLayout(4, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_2)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_2.addItem(spacerItem1)
+        self.formLayout.setLayout(6, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_2)
+        self.originalSizeLabel = QtWidgets.QLabel(ImageSizeDialog)
+        self.originalSizeLabel.setObjectName("originalSizeLabel")
+        self.formLayout.setWidget(2, QtWidgets.QFormLayout.SpanningRole, self.originalSizeLabel)
         self.buttonBox = QtWidgets.QDialogButtonBox(ImageSizeDialog)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Apply|QtWidgets.QDialogButtonBox.Discard)
         self.buttonBox.setCenterButtons(False)
         self.buttonBox.setObjectName("buttonBox")
-        self.formLayout.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.buttonBox)
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.formLayout.setItem(1, QtWidgets.QFormLayout.FieldRole, spacerItem)
-        self.label_3 = QtWidgets.QLabel(ImageSizeDialog)
-        self.label_3.setObjectName("label_3")
-        self.formLayout.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.label_3)
+        self.formLayout.setWidget(8, QtWidgets.QFormLayout.FieldRole, self.buttonBox)
+        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.formLayout.setItem(7, QtWidgets.QFormLayout.FieldRole, spacerItem2)
+        spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.formLayout.setItem(3, QtWidgets.QFormLayout.FieldRole, spacerItem3)
 
         self.retranslateUi(ImageSizeDialog)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL("accepted()"), ImageSizeDialog.accept)
@@ -91,6 +96,7 @@ class Ui_ImageSizeDialog(object):
     def retranslateUi(self, ImageSizeDialog):
         ImageSizeDialog.setWindowTitle(QtWidgets.QApplication.translate("ImageSizeDialog", "Image Size", None, -1))
         self.label.setText(QtWidgets.QApplication.translate("ImageSizeDialog", "Width ", None, -1))
-        self.label_2.setText(QtWidgets.QApplication.translate("ImageSizeDialog", "Height", None, -1))
         self.label_3.setText(QtWidgets.QApplication.translate("ImageSizeDialog", "Lock", None, -1))
+        self.label_2.setText(QtWidgets.QApplication.translate("ImageSizeDialog", "Height", None, -1))
+        self.originalSizeLabel.setText(QtWidgets.QApplication.translate("ImageSizeDialog", "asdasdasd", None, -1))
 
