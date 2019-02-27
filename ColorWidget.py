@@ -39,7 +39,8 @@ class ColorWidget(QWidget, Ui_ColorWidget):
         self.setColorRectImage()
 
     def setColorRectImage(self):
-
+        # do not waste time on trying to accelerate this
+        # just go and watch some anime
         for x in range(self.__rectWidth):
             for y in range(self.__rectHeight):
                 self.image.setPixel(x, y, QColor.fromHsv(self.__hue,
