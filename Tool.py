@@ -1,5 +1,11 @@
 from enum import Enum, unique
+
 from PySide2.QtCore import *
+
+import cv2
+import numpy as np
+
+from CvQtBridge import CvQtBridge
 
 
 @unique
@@ -7,9 +13,10 @@ class ToolType(Enum):
     Null = 0
     Brush = 1
     Eraser = 2
-    StraightLine = 3
-    Rect = 4
-    Ellipse = 5
+    Bucket = 3
+    StraightLine = 4
+    Rect = 5
+    Ellipse = 6
 
 
 class ToolBase(object):
@@ -230,3 +237,38 @@ class Eraser(ToolBase):
             self.painter.end()
             pen.setColor(oldColor)
             self.canvas.update()
+
+
+class Bucket(ToolBase):
+    def __init__(self, painter, canvas=None):
+        super().__init__(painter, canvas)
+        self.type = ToolType.Bucket
+        self.cursor = Qt.CrossCursor
+        self.lastPoint = QPoint()
+
+    def process(self, pen, event):
+        if event.type() == QEvent.MouseButtonRelease and event.button() == Qt.LeftButton:
+            self.canvas.beginDraw(False)
+
+            height, width, channels = self.canvas.mat.shape
+            x, y = event.pos().x(), event.pos().y()
+            if (x not in range(width)) or (y not in range(height)):
+                return
+
+            tempMat = CvQtBridge.sharedMatToCvMat(self.canvas.mat)
+            mask = np.zeros((height + 2, width + 2), np.uint8)
+            b, g, r = pen.color().blue(), pen.color().green(), pen.color().red()
+
+            cv2.floodFill(tempMat,
+                          mask,
+                          (x, y),
+                          (b, g, r),
+                          (pen.width(),)*3,
+                          (pen.width(),)*3,
+                          cv2.FLOODFILL_FIXED_RANGE)
+
+            self.canvas.image = CvQtBridge.cvMatToQImage(tempMat)
+            self.canvas.mat = CvQtBridge.qImageToSharedMat(self.canvas.image)
+            self.canvas.update()
+
+            self.canvas.endDraw()

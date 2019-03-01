@@ -4,6 +4,7 @@ from PySide2.QtGui import *
 
 import numpy as np
 
+from CvQtBridge import CvQtBridge
 from Preferences import Preferences
 
 
@@ -25,13 +26,13 @@ class Canvas(QWidget):
         # todo add different format support
         if self.image.format() != QImage.Format_RGB32:
             self.image = self.image.convertToFormat(QImage.Format_RGB32)
-        self.mat = Canvas.generateMatFromImage(self.image)
+        self.mat = CvQtBridge.qImageToSharedMat(self.image)
         # invertible
         # self.__realMat = self.mat.astype(np.uint32)
 
         # double buffer
         self.tempImage = QImage(self.image)
-        self.tempMat = Canvas.generateMatFromImage(self.tempImage)
+        self.tempMat = CvQtBridge.qImageToSharedMat(self.tempImage)
 
         self.__dockContent = QWidget()
 
@@ -141,11 +142,11 @@ class Canvas(QWidget):
 
     def copyImageToTempImage(self):
         self.tempImage = self.image.copy()
-        self.tempMat = Canvas.generateMatFromImage(self.tempImage)
+        self.tempMat = CvQtBridge.qImageToSharedMat(self.tempImage)
 
     def copyTempImageToImage(self):
         self.image = self.tempImage.copy()
-        self.mat = Canvas.generateMatFromImage(self.image)
+        self.mat = CvQtBridge.qImageToSharedMat(self.image)
 
     def updated(self):
         if self.isSaved is True:
@@ -182,19 +183,12 @@ class Canvas(QWidget):
     def update(self):
         self.frame.repaint()
 
-    @staticmethod
-    # QImage format must be RGB32
-    def generateMatFromImage(image: QImage) -> np.ndarray:
-        return np.ndarray(shape=(image.height(), image.width(), image.depth() // 8),
-                          dtype=np.uint8,
-                          buffer=image.bits())
-
     def resizeImage(self, width: int, height: int):
         # resize image and tempImage
         self.image = self.image.scaled(width,
                                        height,
                                        Qt.IgnoreAspectRatio)
-        self.mat = Canvas.generateMatFromImage(self.image)
+        self.mat = CvQtBridge.qImageToSharedMat(self.image)
         self.copyImageToTempImage()
 
         # resize frame

@@ -3,6 +3,7 @@ from PySide2.QtWidgets import *
 from PySide2.QtGui import *
 
 from Canvas import Canvas
+from CvQtBridge import CvQtBridge
 
 from Ui_CanvasSizeDialog import Ui_CanvasSizeDialog
 
@@ -73,7 +74,7 @@ class CanvasSizeDialog(QDialog, Ui_CanvasSizeDialog):
                                                        self.ySpinBox.value(),
                                                        self.widthSpinBox.value(),
                                                        self.heightSpinBox.value())
-            self.canvas.mat = Canvas.generateMatFromImage(self.canvas.image)
+            self.canvas.mat = CvQtBridge.qImageToSharedMat(self.canvas.image)
             self.canvas.copyImageToTempImage()
             self.canvas.frame.resize(self.canvas.image.width(), self.canvas.image.height())
             self.accept()

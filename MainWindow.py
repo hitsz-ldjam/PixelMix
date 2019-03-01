@@ -109,6 +109,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def initTools(self):
         self.__tools.append(Tool.Brush(self.__painter))
         self.__tools.append(Tool.Eraser(self.__painter))
+        self.__tools.append(Tool.Bucket(self.__painter))
         self.__tools.append(Tool.StraightLine(self.__painter))
         self.__tools.append(Tool.Rect(self.__painter))
         self.__tools.append(Tool.Ellipse(self.__painter))
@@ -118,6 +119,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         btnInfo = namedtuple("btnInfo", "type icon")
         toolBtnInfo = [btnInfo(Tool.ToolType.Brush, "resources/BrushTool.svg"),
                        btnInfo(Tool.ToolType.Eraser, "resources/EraserTool.svg"),
+                       btnInfo(Tool.ToolType.Null, ""),
+                       btnInfo(Tool.ToolType.Bucket, "resources/BucketTool.svg"),
                        btnInfo(Tool.ToolType.Null, ""),
                        btnInfo(Tool.ToolType.StraightLine, "resources/LineTool.svg"),
                        btnInfo(Tool.ToolType.Rect, "resources/RectangleTool.svg"),
